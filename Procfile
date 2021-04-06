@@ -1,1 +1,1 @@
-web: gunicorn jaxattax.wsgi --log-file -
+web: gunicorn --chdir src jaxattax.wsgi --log-file -
