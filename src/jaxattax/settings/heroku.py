@@ -1,4 +1,5 @@
 import os
+
 import django_heroku
 
 from .base import *
@@ -26,3 +27,10 @@ LOGGING = {
         },
     },
 }
+
+
+# AWS credentials are pulled from environment variables automatically by boto3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'jaxewin-media'
+AWS_S3_REGION_NAME = 'ap-southeast-2'
+AWS_S3_FILE_OVERWRITE = False
