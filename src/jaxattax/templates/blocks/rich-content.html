@@ -1,0 +1,17 @@
+{% load wagtailcore_tags %}
+
+<div class="rich-content">
+    {% for block in value %}
+        {% if block.block_type == 'heading' %}
+        <h2>{{ block.value }}</h2>
+        {% elif block.block_type == 'subheading' %}
+        <h3>{{ block.value }}</h3>
+        {% elif block.block_type == 'rich_text' %}
+            {{ block.value|richtext }}
+        {% else %}
+        <div class="block--{{ block.block_type }}">
+            {% include_block block %}
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>

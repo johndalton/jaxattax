@@ -1,0 +1,7 @@
+<ul class="page-nav--menu">
+    {% for menu_item in menu_items %}
+    <li {% if menu_item.is_active %}class="active"{% endif %}>
+    <a href="{{ menu_item.url }}" accesskey="{{ forloop.index }}">{{ menu_item.title }}</a>
+    </li>
+    {% endfor %}
+</ul>

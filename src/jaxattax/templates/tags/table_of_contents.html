@@ -1,0 +1,5 @@
+{% load wagtailcore_tags %}
+<aside class="toc">
+    <h3>Table of contents</h3>
+    <ul class="toc--pages">{% include "tags/_toc_node.html" with node=node %}</ul>
+</aside>

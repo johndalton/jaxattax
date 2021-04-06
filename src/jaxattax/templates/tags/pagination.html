@@ -1,0 +1,29 @@
+{% if paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if links.first %}
+                <li class="page-item"><a class="page-link" href="{{ links.first }}">First</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">First</span></li>
+            {% endif %}
+            {% if links.previous %}
+                <li class="page-item"><a class="page-link" href="{{ links.previous }}">Previous</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">
+                Page {{ page.number }} of {{ paginator.num_pages }}
+            </span></li>
+            {% if links.next %}
+                <li class="page-item"><a class="page-link" href="{{ links.next }}">Next</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+            {% if links.last %}
+                <li class="page-item"><a class="page-link" href="{{ links.last }}">Last</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Last</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

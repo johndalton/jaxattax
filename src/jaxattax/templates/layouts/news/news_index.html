@@ -1,0 +1,40 @@
+{% extends "layouts/page.html" %}
+
+{% load jaxattax_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailroutablepage_tags %}
+
+{% block extra_head %}
+{{ block.super }}
+<link rel="alternate" type="application/rss+xml" title="RSS Feed for {{ settings.pages.SiteDecorations.site_name }}" href="{% routablepageurl page "feed" %}" />
+{% endblock %}
+
+{% block body_class %}page--news-index{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-lg-9">
+                <h2>{{ page.title }}</h2>
+                <hr>
+                {% for item in newsitem_list %}
+                <div class="news-item">
+                    <h3>{{ item.title }}</h3>
+                    <p class="news-item--date">
+                        Published on {{ item.date }} - <a href="{{ item.url }}">Permalink</a>
+                    </p>
+                    {% include_block item.body %}
+                </div>
+                <hr>
+                {% endfor %}
+                {% routablepageurl page "index" as base_url %}
+                {% paginate paginator newsitem_page base_url=base_url %}
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <h3>News directory</h3>
+                <a href="{% routablepageurl page "feed" %}">RSS feed</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

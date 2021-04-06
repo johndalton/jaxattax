@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+<li {% if active_page == node.page %}class="active"{% endif %}>
+    <a href="{% pageurl node.page %}">{{ node.page }}</a>
+    {% if node.children %}
+        <ul class="toc--pages">
+            {% for child in node.children %}{% include "tags/_toc_node.html" with node=child %}{% endfor %}
+        </ul>
+    {% endif %}
+</li>
+

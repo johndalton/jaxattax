@@ -1,0 +1,11 @@
+{% extends "layouts/page.html" %}
+{% load wagtailcore_tags %}
+
+{% block page_title %}{{ settings.pages.SiteDecorations.site_name }}{% endblock %}
+{% block body_class %}page--home{% endblock %}
+
+{% block content %}
+    {% for block in page.body %}
+        {% include_block block %}
+    {% endfor %}
+{% endblock %}
