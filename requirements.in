@@ -4,3 +4,4 @@ Wagtail~=2.12.3
 psycopg2~=2.8.6
 wagtailfontawesome~=1.2.1
 wagtailnews~=2.7.1
+gunicorn~=20.1.0
