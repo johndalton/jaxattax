@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "jquery": "^3.3.1"
+    "jquery": "^3.6.0"
   },
   "scripts": {
-    "start": "parcel watch --public-url /assets/static/ --out-dir src/jaxattax/frontend/static src/jaxattax/frontend/src/style.scss",
-    "build": "parcel build --public-url /assets/static/ --out-dir src/jaxattax/frontend/static src/jaxattax/frontend/src/style.scss"
+    "start": "parcel watch --public-url /assets/static/ --out-dir src/jaxattax/frontend/static src/jaxattax/frontend/src/style.scss src/jaxattax/frontend/src/script.js",
+    "build": "parcel build --public-url /assets/static/ --out-dir src/jaxattax/frontend/static src/jaxattax/frontend/src/style.scss src/jaxattax/frontend/src/script.js"
   },
   "private": true,
   "main": "index.js",

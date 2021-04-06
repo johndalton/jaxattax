@@ -8,6 +8,7 @@ $color-light-grey: #dddddd;
 
 $theme-colors: (
   "primary": $color-blue,
+  "secondary": $color-pink,
 );
 
 @import "~bootstrap/scss/bootstrap";
@@ -67,6 +68,20 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: $color-pink;
 	overflow: hidden;
 
+	.navbar {
+		padding: 0;
+		.nav-link {
+			padding: 1rem 2rem;
+		}
+		.nav-item.active, .nav-item:hover {
+			.nav-link {
+				background-color: white;
+				color: $color-pink;
+				text-decoration: none;
+			}
+		}
+	}
+
 	&--menu {
 		display: flex;
 		flex-direction: column;
@@ -93,13 +108,6 @@ h1, h2, h3, h4, h5, h6 {
 				padding: 1rem 2rem;
 				color: white;
 			}
-			&.active, &:hover {
-				background-color: white;
-				a {
-					color: $color-pink;
-					text-decoration: none;
-				}
-			}
 		}
 	}
 }
@@ -114,6 +122,11 @@ h1, h2, h3, h4, h5, h6 {
 		padding-left: 0;
 		margin: 0;
 		display: flex;
+		flex-direction: column;
+		@include media-breakpoint-up("md") {
+			flex-direction: row;
+		}
+		flex-wrap: wrap;
 		justify-content: center;
 		li {
 			list-style-type: none;
