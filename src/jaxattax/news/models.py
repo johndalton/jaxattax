@@ -3,11 +3,8 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtailnews.decorators import newsindex
-from wagtailnews.models import (
-    AbstractNewsItem,
-    AbstractNewsItemRevision,
-    NewsIndexMixin
-)
+from wagtailnews.models import (AbstractNewsItem, AbstractNewsItemRevision,
+                                NewsIndexMixin)
 
 from .. import blocks
 
@@ -22,7 +19,7 @@ class NewsIndex(NewsIndexMixin, Page):
 
 class NewsItem(AbstractNewsItem):
     title = models.CharField(max_length=100)
-    body = StreamField(blocks.PageBlocks())
+    body = StreamField(blocks.RichContentBlocks())
 
     panels = [
         FieldPanel('title'),

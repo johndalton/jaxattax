@@ -1,12 +1,14 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
-<div class="container">
-    <div class="row {% if block.value.alignment == "right" %}flex-row-reverse-md{% endif %}">
-        <div class="col-md-3 col-lg-3"">
-            {% image value.image width-600 class="mw-100 h-auto" %}
-        </div>
-        <div class="col-md-6 col-lg-9">
-            {% include_block value.content %}
+<div class="section">
+    <div class="container">
+        <div class="side-image">
+            <div class="side-image--image"">
+                {% image value.image width-600 class="mw-100 h-auto" %}
+            </div>
+            <div class="side-image--content">
+                {% include_block value.content %}
+            </div>
         </div>
     </div>
 </div>

@@ -194,16 +194,69 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 1rem;
 
 	&--image {
+		display: block;
 		max-width: 100%;
 		height: auto;
+		margin: 0 auto;
 	}
 	&--caption {
 		& :last-child {
 			margin-bottom: 0;
 		}
 	}
+	@include media-breakpoint-up("md") {
+		&__left, &__right {
+			clear: both;
+			max-width: 45%;
+			margin-bottom: 1rem;
+		}
+		&__left {
+			float: left;
+			margin-right: 1rem;
+		}
+		&__right {
+			float: left;
+			margin-right: 1rem;
+		}
+	}
+	@include media-breakpoint-up("lg") {
+		&__left, &__right {
+			max-width: 30%;
+		}
+	}
 }
 
-.block--side-image, .rich-content, .ctas {
+.side-image {
+	@include media-breakpoint-up("md") {
+		@include make-row();
+
+		align-items: center;
+
+		&__left {
+			flex-direction: row;
+		}
+		&__right {
+			flex-direction: row-reverse;
+		}
+
+		&--image {
+			@include make-col-ready();
+			@include make-col(3);
+		}
+		&--content {
+			@include make-col-ready();
+			@include make-col(9);
+		}
+	}
+}
+
+.section {
 	margin-bottom: 1rem;
+	overflow: hidden;
+}
+
+.rich-content {
+	:last-child {
+		margin-bottom: 0;
+	}
 }

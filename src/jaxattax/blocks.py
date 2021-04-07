@@ -10,7 +10,10 @@ class LinkBlock(blocks.StructBlock):
     document = DocumentChooserBlock()
 
 
-class RichTextBlock(blocks.StreamBlock):
+class RichTextBlocks(blocks.StreamBlock):
+    """
+    Just rich text, headings, etc.
+    """
     heading = blocks.CharBlock(icon='fa-header')
     subheading = blocks.CharBlock(icon='fa-header')
     rich_text = blocks.RichTextBlock(label="Text", features=base_blocks.BLOCK_FEATURES)
@@ -19,20 +22,6 @@ class RichTextBlock(blocks.StreamBlock):
         label = "Rich text content"
         icon = 'fa-align-left'
         template = 'blocks/rich-content.html'
-
-
-class SideImageBlock(blocks.StructBlock):
-    image = ImageChooserBlock()
-    alignment = blocks.ChoiceBlock([
-        ('left', "Left"),
-        ('right', "Right"),
-    ])
-    content = RichTextBlock()
-
-    class Meta:
-        label = "Text with side image"
-        icon = 'fa-address-card'
-        template = 'blocks/side-image.html'
 
 
 class ButtonBlock(blocks.StructBlock):
@@ -51,16 +40,27 @@ class ButtonsBlock(base_blocks.DeclarativeListBlock):
 
 class LargeImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
-    caption = blocks.RichTextBlock(features=base_blocks.INLINE_FEATURES)
+    alignment = blocks.ChoiceBlock(
+        choices=[
+            ('full-width', "Full width"),
+            ('left', "Left"),
+            ('right', "Right"),
+        ],
+        default="full-width",
+    )
+    caption = blocks.RichTextBlock(
+        help_text="Some short text describing the image",
+        features=base_blocks.INLINE_FEATURES,
+    )
 
     class Meta:
-        label = "Large image"
+        label = "Image"
+        help_text = "An image with a short caption"
         icon = 'fa-image'
         template = 'blocks/large-image.html'
 
 
-class RichContentBlock(RichTextBlock):
-    side_image = SideImageBlock()
+class RichContentBlocks(RichTextBlocks):
     buttons = ButtonsBlock()
     large_image = LargeImageBlock()
 
@@ -68,6 +68,21 @@ class RichContentBlock(RichTextBlock):
         label = "Rich content"
         icon = 'fa-address-card'
         template = 'blocks/rich-content.html'
+
+
+class SideImageSection(blocks.StructBlock):
+    """Feature image with rich text next to it"""
+    image = ImageChooserBlock()
+    alignment = blocks.ChoiceBlock([
+        ('left', "Left"),
+        ('right', "Right"),
+    ])
+    content = RichTextBlocks()
+
+    class Meta:
+        label = "Text next to an image"
+        icon = 'fa-address-card'
+        template = 'blocks/side-image.html'
 
 
 class CallToActionBlock(blocks.StructBlock):
@@ -83,7 +98,7 @@ class CallToActionBlock(blocks.StructBlock):
         template = 'blocks/call-to-action.html'
 
 
-class CallsToActionBlock(base_blocks.DeclarativeListBlock):
+class CallsToActionSection(base_blocks.DeclarativeListBlock):
     child_block = CallToActionBlock()
 
     class Meta:
@@ -92,15 +107,16 @@ class CallsToActionBlock(base_blocks.DeclarativeListBlock):
         template = 'blocks/calls-to-action.html'
 
 
-class RichContentSection(RichContentBlock):
+class RichContentSection(RichContentBlocks):
     class Meta:
         template = 'blocks/rich-content-section.html'
 
 
-class HomePageBlocks(blocks.StreamBlock):
+class PageBlocks(blocks.StreamBlock):
     rich_content = RichContentSection()
-    calls_to_action = CallsToActionBlock()
+    calls_to_action = CallsToActionSection()
+    side_image = SideImageSection()
 
 
-class PageBlocks(RichContentBlock):
+class HomePageBlocks(PageBlocks):
     pass

@@ -18,3 +18,8 @@ class DeclarativeListBlock(blocks.ListBlock):
         if child_block is None:
             child_block = self.child_block
         super().__init__(child_block, **kwargs)
+
+    def deconstruct(self):
+        _, args, kwargs = super().deconstruct()
+        args = (self.child_block, *args)
+        return 'wagtail.core.blocks.ListBlock', args, kwargs
