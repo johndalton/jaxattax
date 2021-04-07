@@ -32,7 +32,7 @@ class SideImageBlock(blocks.StructBlock):
     class Meta:
         label = "Text with side image"
         icon = 'fa-address-card'
-        template = 'blocks/rich-content-with-image.html'
+        template = 'blocks/side-image.html'
 
 
 class ButtonBlock(blocks.StructBlock):
