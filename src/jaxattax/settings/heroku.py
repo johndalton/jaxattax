@@ -10,7 +10,7 @@ django_heroku.settings(locals())
 
 INSTALLED_APPS = [
     'scout_apm.django',
-    **INSTALLED_APPS,
+    *INSTALLED_APPS,
 ]
 
 
