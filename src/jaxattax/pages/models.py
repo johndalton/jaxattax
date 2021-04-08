@@ -8,6 +8,8 @@ from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.fields import ImageField
 
+from jaxattax.mixins import PageWithBreadcrumbs
+
 from .. import blocks
 
 
@@ -23,7 +25,7 @@ class HomePage(Page):
     parent_page_types = ['wagtailcore.Page']
 
 
-class Page(Page):
+class Page(PageWithBreadcrumbs):
     body = StreamField(blocks.PageBlocks())
     show_table_of_contents = models.BooleanField(default=True)
 
@@ -38,11 +40,6 @@ class Page(Page):
 
     parent_page_types = ['pages.HomePage', 'Page']
 
-    def get_context(self, request, *args, **kwargs):
-        return {
-            **super().get_context(request, *args, **kwargs),
-            "show_toc": True,
-        }
 
 
 @register_setting(icon="link")

@@ -3,14 +3,18 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtailnews.decorators import newsindex
-from wagtailnews.models import (AbstractNewsItem, AbstractNewsItemRevision,
-                                NewsIndexMixin)
+from wagtailnews.models import (
+    AbstractNewsItem, AbstractNewsItemRevision, NewsIndexMixin,
+)
+
+from jaxattax.mixins import PageWithBreadcrumbs
+from jaxattax.utils import Crumb
 
 from .. import blocks
 
 
 @newsindex
-class NewsIndex(NewsIndexMixin, Page):
+class NewsIndex(NewsIndexMixin, PageWithBreadcrumbs):
     newsitem_model = 'NewsItem'
     parent_page_types = ['pages.HomePage']
 
@@ -27,6 +31,11 @@ class NewsItem(AbstractNewsItem):
     ]
 
     template = 'layouts/news/news_item.html'
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['breadcrumbs'].append(Crumb(title=self.title, url=self.url))
+        return context
 
     def __str__(self):
         return self.title
