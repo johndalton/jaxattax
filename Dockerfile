@@ -1,7 +1,8 @@
 # Frontend asset builder
-FROM node:8-stretch as frontend
+FROM node:15-alpine as frontend
 
 ENV NPM_CONFIG_LOGLEVEL=warn
+ENV PARCEL_WORKERS=1
 
 WORKDIR /opt/jaxattax
 COPY ./package.json ./yarn.lock /opt/jaxattax/
