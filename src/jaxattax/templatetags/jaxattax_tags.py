@@ -58,7 +58,7 @@ class MenuEntry:
         )
 
 
-def _as_tree(root: Page, pages: t.Sequence[Page]) -> PageTree:
+def _as_tree(root: Page, pages: t.Sequence[Page]) -> t.List[PageTree]:
     root = PageTree(page=root, parent=None, children=[])
     current_parent = root
 
@@ -69,7 +69,7 @@ def _as_tree(root: Page, pages: t.Sequence[Page]) -> PageTree:
         current_parent.children.append(current_node)
         current_parent = current_node
 
-    return root
+    return root.children
 
 
 @register.inclusion_tag('tags/site_menu.html', takes_context=True)
@@ -82,13 +82,13 @@ def site_menu(context, active_path: t.Optional[str] = None):
     home_page = site.root_page.specific
     descendants = home_page.get_descendants().in_menu().live().specific()
 
-    page_tree = _as_tree(home_page, descendants)
+    children = _as_tree(home_page, descendants)
 
     menu_items = [
         MenuEntry(title='Homepage', url=home_page.get_url(request=request), is_active=active_path=='/')
     ] + [
         MenuEntry.for_page_tree(page_tree, request=request, active_path=active_path)
-        for page_tree in page_tree.children
+        for page_tree in children
     ]
 
     return {'menu_items': menu_items}
@@ -100,11 +100,10 @@ def table_of_contents(context, active_page: Page):
     site = Site.find_for_request(request)
     home_page = site.root_page
 
-    tree_base = home_page.get_children().ancestor_of(active_page, inclusive=True).specific().get()
-    descendants = tree_base.get_descendants().in_menu().live().specific()
-    page_tree = _as_tree(tree_base, descendants)
+    descendants = active_page.get_descendants().in_menu().live().specific()
+    children = _as_tree(active_page, descendants)
 
-    return {'node': page_tree, 'active_page': active_page}
+    return {'children': children, 'active_page': active_page}
 
 
 @register.inclusion_tag('tags/pagination.html', takes_context=True)

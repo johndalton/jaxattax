@@ -51,6 +51,7 @@ class LargeImageBlock(blocks.StructBlock):
     caption = blocks.RichTextBlock(
         help_text="Some short text describing the image",
         features=base_blocks.INLINE_FEATURES,
+        required=False,
     )
 
     class Meta:
@@ -60,9 +61,18 @@ class LargeImageBlock(blocks.StructBlock):
         template = 'blocks/large-image.html'
 
 
+class TableOfContentsBlock(blocks.StructBlock):
+    class Meta:
+        label = "Table of contents"
+        help_text = "Displays a table of contents of pages under this page"
+        icon = 'fa-list'
+        template = 'blocks/table-of-contents.html'
+
+
 class RichContentBlocks(RichTextBlocks):
     buttons = ButtonsBlock()
     large_image = LargeImageBlock()
+    table_of_contents = TableOfContentsBlock()
 
     class Meta:
         label = "Rich content"
