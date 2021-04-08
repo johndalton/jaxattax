@@ -5,11 +5,25 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             {% for menu_item in menu_items %}
-            <li class="nav-item {% if menu_item.is_active %}active{% endif %}">
-                <a class="nav-link" href="{{ menu_item.url }}">
-                    {{ menu_item.title }} {% if menu_item.is_active %}<span class="sr-only">(current)</span>{% endif %}
-                </a>
-            </li>
+                {% if menu_item.children %}
+                <li class="nav-item dropdown{% if menu_item.is_active %} active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="{{ menu_item.menu_id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ menu_item.title }} {% if menu_item.is_active %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="{{ menu_item.menu_id }}">
+                        <a class="dropdown-item" href="{{ menu_item.url }}">{{ menu_item.title }}</a>
+                        {% for child in menu_item.children %}
+                        <a class="dropdown-item{% if child.is_active %} active{% endif %}" href="{{ child.url }}">{{ child.title }}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item{% if menu_item.is_active %} active{% endif %}">
+                    <a class="nav-link" href="{{ menu_item.url }}">
+                        {{ menu_item.title }} {% if menu_item.is_active %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
+                </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

@@ -9,10 +9,19 @@ register = template.Library()
 
 
 @dataclasses.dataclass
+class PageTree:
+    page: Page
+    parent: t.Optional["PageTree"]
+    children: t.Sequence[Page]
+
+
+@dataclasses.dataclass
 class MenuEntry:
     title: str
     url: str
     is_active: bool
+    menu_id: t.Optional[str] = None
+    children: t.Sequence["MenuEntry"] = dataclasses.field(default_factory=list)
 
     @classmethod
     def for_page(
@@ -20,35 +29,33 @@ class MenuEntry:
         page: Page,
         request: http.HttpRequest,
         active_path: str,
+        children: t.Iterable["MenuEntry"] = (),
     ) -> "MenuEntry":
         url = page.get_url(request=request)
-        return cls(title=str(page), url=url, is_active=(active_path.startswith(url)))
+        return cls(
+            title=str(page),
+            url=url,
+            is_active=active_path.startswith(url),
+            menu_id=f'menu-id-{page.pk}',
+            children=list(children),
+        )
 
-
-@register.inclusion_tag('tags/site_menu.html', takes_context=True)
-def site_menu(context, active_path: t.Optional[str] = None):
-    request = context['request']
-    if active_path is None:
-        active_path = request.path
-
-    site = Site.find_for_request(request)
-    home_page = site.root_page.specific
-
-    menu_items = [
-        MenuEntry(title='Homepage', url=home_page.get_url(request=request), is_active=active_path=='/')
-    ] + [
-        MenuEntry.for_page(page, request, active_path=active_path)
-        for page in home_page.get_children().live().in_menu().specific()
-    ]
-
-    return {'menu_items': menu_items}
-
-
-@dataclasses.dataclass
-class PageTree:
-    page: Page
-    parent: t.Optional["PageTree"]
-    children: t.Sequence[Page]
+    @classmethod
+    def for_page_tree(
+        cls,
+        page_tree: PageTree,
+        request: http.HttpRequest,
+        active_path: str,
+    ) -> "MenuEntry":
+        return MenuEntry.for_page(
+            page=page_tree.page,
+            request=request,
+            active_path=active_path,
+            children=(
+                MenuEntry.for_page_tree(child, request, active_path)
+                for child in page_tree.children
+            )
+        )
 
 
 def _as_tree(root: Page, pages: t.Sequence[Page]) -> PageTree:
@@ -63,6 +70,28 @@ def _as_tree(root: Page, pages: t.Sequence[Page]) -> PageTree:
         current_parent = current_node
 
     return root
+
+
+@register.inclusion_tag('tags/site_menu.html', takes_context=True)
+def site_menu(context, active_path: t.Optional[str] = None):
+    request = context['request']
+    if active_path is None:
+        active_path = request.path
+
+    site = Site.find_for_request(request)
+    home_page = site.root_page.specific
+    descendants = home_page.get_descendants().in_menu().live().specific()
+
+    page_tree = _as_tree(home_page, descendants)
+
+    menu_items = [
+        MenuEntry(title='Homepage', url=home_page.get_url(request=request), is_active=active_path=='/')
+    ] + [
+        MenuEntry.for_page_tree(page_tree, request=request, active_path=active_path)
+        for page_tree in page_tree.children
+    ]
+
+    return {'menu_items': menu_items}
 
 
 @register.inclusion_tag('tags/table_of_contents.html', takes_context=True)

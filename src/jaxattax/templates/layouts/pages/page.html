@@ -6,17 +6,6 @@
 
 {% block content %}
     <div class="container">
-        {% if page.show_table_of_contents %}
-        <div class="row">
-            <div class="col-md-9 col-lg-9">
-                {% include_block page.body %}
-            </div>
-            <div class="col-md-3 col-lg-3">
-                {% table_of_contents active_page=page %}
-            </div>
-        </div>
-        {% else %}
-            {% include_block page.body %}
-        {% endif %}
+        {% include_block page.body %}
     </div>
 {% endblock %}
