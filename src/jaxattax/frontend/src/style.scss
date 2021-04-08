@@ -10,6 +10,7 @@ $theme-colors: (
   "primary": $color-blue,
   "secondary": $color-pink,
 );
+$link-color: darken($color-blue, 20%);
 
 @import "~bootstrap/scss/bootstrap";
 
@@ -72,11 +73,12 @@ h1, h2, h3, h4, h5, h6 {
 		padding: 0;
 		.nav-link {
 			padding: 1rem 2rem;
+			color: rgba(0, 0, 0, 0.75);
 		}
 		.nav-item.active, .nav-item:hover {
 			.nav-link {
 				background-color: white;
-				color: $color-pink;
+				color: black;
 				text-decoration: none;
 			}
 		}
