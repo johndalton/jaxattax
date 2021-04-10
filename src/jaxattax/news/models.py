@@ -10,7 +10,7 @@ from wagtailnews.models import (
 from jaxattax.mixins import PageWithBreadcrumbs
 from jaxattax.utils import Crumb
 
-from .. import blocks
+from . import blocks
 
 
 @newsindex
@@ -23,7 +23,7 @@ class NewsIndex(NewsIndexMixin, PageWithBreadcrumbs):
 
 class NewsItem(AbstractNewsItem):
     title = models.CharField(max_length=100)
-    body = StreamField(blocks.RichContentBlocks())
+    body = StreamField(blocks.NewsItemBlocks())
 
     panels = [
         FieldPanel('title'),
