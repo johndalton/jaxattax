@@ -1,17 +1,32 @@
 import os
 
-import django_heroku
+import dj_database_url
 
-from .base import *
-from .base import INSTALLED_APPS, WAGTAIL_SITE_NAME
+from .base import *  # noqa: F401 F403
+from .base import BASE_DIR, INSTALLED_APPS, WAGTAIL_SITE_NAME
 
-django_heroku.settings(locals())
+DATABASES = {
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True),
+}
+
+
+SECRET_KEY = os.environ['SECRET_KEY']
 
 
 INSTALLED_APPS = [
     'scout_apm.django',
     *INSTALLED_APPS,
 ]
+
+
+# Static file handling
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+os.makedirs(STATIC_ROOT, exist_ok=True)
+
+
+# Heroku makes up all sorts of names
+ALLOWED_HOSTS = ['*']
 
 
 # From: https://docs.djangoproject.com/en/3.1/topics/logging/
