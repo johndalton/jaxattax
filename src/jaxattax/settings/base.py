@@ -21,15 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 # Application definition
 INSTALLED_APPS = [
     'jaxattax',
-    'jaxattax.pages',
-    'jaxattax.news',
+    'jaxattax.donations',
     'jaxattax.frontend',
+    'jaxattax.news',
+    'jaxattax.pages',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.settings',
-    'wagtail.contrib.styleguide',
+    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',

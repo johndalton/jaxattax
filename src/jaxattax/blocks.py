@@ -69,10 +69,19 @@ class TableOfContentsBlock(blocks.StructBlock):
         template = 'blocks/table-of-contents.html'
 
 
+class CashDonationsBlock(blocks.StructBlock):
+    class Meta:
+        label = "Cash donations received"
+        help_text = "All the cash donations you've received. Real time accountability!"
+        icon = 'fa-dollar'
+        template = 'blocks/cash-donations.html'
+
+
 class RichContentBlocks(RichTextBlocks):
     buttons = ButtonsBlock()
     large_image = LargeImageBlock()
     table_of_contents = TableOfContentsBlock()
+    cash_donations = CashDonationsBlock()
 
     class Meta:
         label = "Rich content"

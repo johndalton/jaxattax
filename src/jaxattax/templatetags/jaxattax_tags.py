@@ -5,6 +5,8 @@ from django import forms, http, template
 from django.core import paginator
 from wagtail.core.models import Page, Site
 
+from jaxattax.donations.models import CashDonation
+
 register = template.Library()
 
 
@@ -207,3 +209,11 @@ def form_field(
         })
 
     return field_context
+
+
+@register.simple_tag
+def get_cash_donations():
+    return [
+        {'name': c.name, 'amount': c.amount, 'date': c.date}
+        for c in CashDonation.objects.all().order_by('-date', '-created')
+    ]
