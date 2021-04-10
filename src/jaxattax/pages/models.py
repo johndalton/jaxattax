@@ -3,10 +3,9 @@ import typing as t
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.images.fields import ImageField
 
 from jaxattax.mixins import PageWithBreadcrumbs
 
@@ -35,7 +34,6 @@ class Page(PageWithBreadcrumbs):
     template = 'layouts/pages/page.html'
 
     parent_page_types = ['pages.HomePage', 'Page']
-
 
 
 @register_setting(icon="link")

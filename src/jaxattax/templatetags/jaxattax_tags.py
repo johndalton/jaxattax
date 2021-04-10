@@ -5,6 +5,7 @@ import typing as t
 from django import forms, http, template
 from django.core import paginator
 from django.core.serializers.json import DjangoJSONEncoder
+from django.template.context import RequestContext
 from django.utils.safestring import mark_safe
 from wagtail.core.models import Page, Site
 
@@ -101,18 +102,21 @@ def site_menu(context, active_path: t.Optional[str] = None):
 
 @register.inclusion_tag('tags/table_of_contents.html', takes_context=True)
 def table_of_contents(context, active_page: Page):
-    request = context['request']
-    site = Site.find_for_request(request)
-    home_page = site.root_page
-
     descendants = active_page.get_descendants().in_menu().live().specific()
     children = _as_tree(active_page, descendants)
 
-    return {'children': children, 'active_page': active_page}
+    return RequestContext(context['request'], {
+        'children': children,
+        'active_page': active_page,
+    })
 
 
 @register.inclusion_tag('tags/pagination.html', takes_context=True)
-def paginate(context: t.Mapping, paginator: paginator.Paginator, page: paginator.Page, base_url: t.Optional[str] = None):
+def paginate(
+    context: t.Mapping,
+    paginator: paginator.Paginator,
+    page: paginator.Page, base_url: t.Optional[str] = None,
+):
     request = context['request']
     query = request.GET
     if base_url is None:
