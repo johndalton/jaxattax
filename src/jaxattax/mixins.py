@@ -1,6 +1,6 @@
 from wagtail.core.models import Page
 
-from jaxattax.utils import breadcrumbs_for_page
+from jaxattax.utils.breadcrumbs import breadcrumbs_for_page
 
 
 class PageWithBreadcrumbs(Page):

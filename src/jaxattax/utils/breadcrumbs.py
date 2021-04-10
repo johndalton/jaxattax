@@ -1,20 +1,7 @@
 import dataclasses
 
 from django import http
-from django.core.paginator import EmptyPage, Paginator
 from wagtail.core.models import Page, Site
-
-
-def paginate(request, items):
-    paginator = Paginator(items, 5)
-
-    try:
-        page_number = int(request.GET['page'])
-        page = paginator.page(page_number)
-    except (ValueError, KeyError, EmptyPage):
-        page = paginator.page(1)
-
-    return paginator, page
 
 
 @dataclasses.dataclass

@@ -8,7 +8,7 @@ from wagtailnews.models import (
 )
 
 from jaxattax.mixins import PageWithBreadcrumbs
-from jaxattax.utils import Crumb
+from jaxattax.utils.breadcrumbs import Crumb
 
 from . import blocks
 

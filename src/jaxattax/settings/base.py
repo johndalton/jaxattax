@@ -117,7 +117,7 @@ MEDIA_URL = '/assets/media/'
 
 # Wagtail
 WAGTAIL_SITE_NAME = 'Jax Attax the State'
-WAGTAILNEWS_PAGINATOR = 'jaxattax.utils.paginate'
+WAGTAILNEWS_PAGINATOR = 'jaxattax.utils.pagination.paginate'
 
 
 # Stripe
