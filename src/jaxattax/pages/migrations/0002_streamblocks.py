@@ -5,6 +5,7 @@ import wagtail.core.fields
 import wagtail.documents.blocks
 import wagtail.images.blocks
 from django.db import migrations
+from django.db.models import F, Value, functions
 
 
 def forwards(apps, schema):

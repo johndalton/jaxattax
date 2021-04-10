@@ -27,13 +27,9 @@ class HomePage(Page):
 
 class Page(PageWithBreadcrumbs):
     body = StreamField(blocks.PageBlocks())
-    show_table_of_contents = models.BooleanField(default=True)
 
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
-    ]
-    settings_panels = Page.settings_panels + [
-        FieldPanel('show_table_of_contents'),
     ]
 
     template = 'layouts/pages/page.html'
