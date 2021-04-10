@@ -1,5 +1,5 @@
 {% load jaxattax_tags %}
-<form action="" method="post" data-donate>
+<form action="{% url "create_session" %}" method="post" data-donate>
     {% csrf_token %}
     {% form_field donate_form.page %}
     <div class="form-row">

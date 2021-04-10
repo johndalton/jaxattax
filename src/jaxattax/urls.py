@@ -21,9 +21,14 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+import jaxattax.donations.urls
+
 urlpatterns = [
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
+    path('_donations/', include('jaxattax.donations.urls')),
+
+    # Must be last, as it matches everything
     re_path(r'', include(wagtail_urls)),
 ]
 

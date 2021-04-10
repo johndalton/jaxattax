@@ -1,8 +1,11 @@
 import dataclasses
+import json
 import typing as t
 
 from django import forms, http, template
 from django.core import paginator
+from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.safestring import mark_safe
 from wagtail.core.models import Page, Site
 
 from jaxattax.donations.models import CashDonation
@@ -153,6 +156,11 @@ def query_args(query: http.QueryDict, **kwargs: t.Dict[str, t.Optional[str]]):
         return ''
 
     return '?' + query.urlencode()
+
+
+@register.filter(name='json')
+def to_json(value):
+    return mark_safe(json.dumps(value, cls=DjangoJSONEncoder))
 
 
 @register.filter
