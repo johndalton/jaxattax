@@ -1,7 +1,7 @@
 import dataclasses
 import typing as t
 
-from django import http, template
+from django import forms, http, template
 from django.core import paginator
 from wagtail.core.models import Page, Site
 
@@ -151,3 +151,59 @@ def query_args(query: http.QueryDict, **kwargs: t.Dict[str, t.Optional[str]]):
         return ''
 
     return '?' + query.urlencode()
+
+
+@register.filter
+def add_class(bound_field: forms.BoundField, classes: str) -> forms.BoundField:
+    attrs = bound_field.field.widget.attrs
+    if 'class' in attrs:
+        attrs['class'] = f'{attrs["class"]} {classes}'
+    else:
+        attrs['class'] = classes
+    return bound_field
+
+
+@register.inclusion_tag('tags/form_field.html', takes_context=True)
+def form_field(
+    context: t.Mapping,
+    bound_field: forms.BoundField,
+    *,
+    group_class: t.Optional[str] = None,
+    prefix: t.Optional[str] = None,
+    suffix: t.Optional[str] = None,
+) -> dict:
+    field_context = {
+        'is_hidden': bound_field.is_hidden,
+        'bound_field': bound_field,
+        'label': str(bound_field.label),
+        'field_id': bound_field.id_for_label,
+        'group_class': ' ' + group_class if group_class else ''
+    }
+
+    if isinstance(bound_field.field.widget, forms.CheckboxInput):
+        field_context.update({
+            'is_checkbox': True,
+            'field': str(add_class(bound_field, 'form-check-input')),
+        })
+
+    else:
+        field_context.update({
+            'field': str(add_class(bound_field, 'form-control')),
+        })
+
+    if bound_field.help_text:
+        description_id = bound_field.id_for_label + '-description'
+        bound_field.field.widget.attrs['aria-describedby'] = description_id
+        field_context.update({
+            'description': bound_field.help_text,
+            'description_id': description_id,
+        })
+
+    if prefix or suffix:
+        field_context.update({
+            'surround': True,
+            'prefix': prefix,
+            'suffix': suffix,
+        })
+
+    return field_context

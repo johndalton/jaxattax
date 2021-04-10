@@ -259,3 +259,13 @@ h1, h2, h3, h4, h5, h6 {
 		margin-bottom: 0;
 	}
 }
+
+input[type=number].no-spinner {
+    -moz-appearance: textfield;
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
