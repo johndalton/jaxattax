@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Receipt for donation to {{ from_name }}</title>
+<style>
+body {
+    font-family: sans-serif;
+}
+table {
+    border-collapse: collapse;
+}
+table td, table th {
+    border: 1px solid black;
+    padding: 3px 10px;
+    margin: 0;
+}
+table th {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+
+<h1>Tax invoice</h1>
+
+<p><strong>Date:</strong> {{ date }}</p>
+<p>
+<strong>From:</strong> {{ from_name }}<br>
+<strong>ABN:</strong> {{ from_abn }}
+</p>
+
+<p>
+<strong>To:</strong> {{ to_name }}<br>
+</p>
+
+<table width="600">
+    <thead>
+        <tr>
+            <th align="left">Item</th>
+            <th align="right">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left">Donation</td>
+            <td align="right">${{ amount|floatformat:2 }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th align="right">TOTAL</th>
+            <td align="right">${{ amount|floatformat:2 }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+Donations of $2 or more made by an individual to an independent candidate
+before an election may be tax deductible.
+Check the ATO website for more information.
+<p>
+
+</body>
+</html>

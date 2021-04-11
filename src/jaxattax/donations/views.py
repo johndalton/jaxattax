@@ -1,4 +1,5 @@
 import logging
+import smtplib
 from decimal import Decimal
 
 import stripe
@@ -8,10 +9,12 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic.edit import FormMixin
+from wagtail.core.models import Site
 
+from jaxattax.pages.models import ContactDetails
 from jaxattax.utils.breadcrumbs import Crumb
 
-from . import forms, models
+from . import emails, forms, models
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +82,6 @@ class CreateSession(FormMixin, views.View):
         })
 
     def form_invalid(self, form):
-        print(form.errors)
         return http.JsonResponse({
             'errors': ['YOu done fucked up'],
         })
@@ -96,8 +98,8 @@ def receive_webhook(request):
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
 
-    except (ValueError, stripe.error.SignatureVerificationError) as e:
-        print(e)
+    except (ValueError, stripe.error.SignatureVerificationError):
+        logger.exception("Bad Stripe webhook")
         return http.HttpResponse(status=400)
 
     logger.info(f"Got stripe webhook {event['type']!r}")
@@ -105,16 +107,26 @@ def receive_webhook(request):
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
 
-        name = session["metadata"].get('name', 'Unknown')
+        name = session['metadata'].get('name', 'Unknown')
 
         dollars = Decimal(session['amount_total']) / 100
-        models.CashDonation.objects.create(
+        cash_donation = models.CashDonation.objects.create(
             name=name,
             amount=dollars,
             date=timezone.now().date(),
+            email=session['customer_details']['email'],
+            receipt_sent=False,
             stripe_id=session['payment_intent'],
         )
 
-        # TODO - send an email to the customer
+        site = Site.find_for_request(request)
+        contact_details = ContactDetails.for_site(site)
+        try:
+            emails.send_receipt(cash_donation, contact_details)
+        except smtplib.SMTPException:
+            logger.exception("Could not send receipt")
+        finally:
+            cash_donation.receipt_sent = True
+            cash_donation.save()
 
     return http.HttpResponse(status=200)

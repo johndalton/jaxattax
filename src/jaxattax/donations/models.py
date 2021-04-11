@@ -1,6 +1,9 @@
 from django.db import models
 from wagtail.admin.edit_handlers import (
-    FieldPanel, ObjectList, StreamFieldPanel, TabbedInterface,
+    FieldPanel,
+    ObjectList,
+    StreamFieldPanel,
+    TabbedInterface,
 )
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.fields import StreamField
@@ -53,15 +56,27 @@ class CashDonation(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
 
+    email = models.EmailField(
+        blank=True,
+        help_text=(
+            "The email address entered in the Stripe payment. "
+            "Not required for manually entered donations."
+        ),
+    )
+    receipt_sent = models.BooleanField(
+        default=False,
+        help_text="Has an automatic receipt been emailed?",
+    )
     stripe_id = models.CharField(
         max_length=100, blank=True,
-        help_text="The ID of the payment in Stripe, if it was done online",
+        help_text="The ID of the payment in Stripe, if it was done online.",
     )
 
     panels = [
         FieldPanel('name'),
         FieldPanel('amount'),
         FieldPanel('date'),
+        FieldPanel('email'),
         ReadOnlyPanel('stripe_id', heading="Stripe transaction ID"),
     ]
 

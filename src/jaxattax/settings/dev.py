@@ -22,3 +22,6 @@ DATABASES = {
 SECRET_KEY = 'shhh not very secret'
 
 ALLOWED_HOSTS = ['*']
+
+EMAIL_HOST = 'mail'
+DEFAULT_FROM_EMAIL = 'jaxattax@example.com'

@@ -44,6 +44,15 @@ class ContactDetails(BaseSetting):
     facebook_url = models.URLField(blank=True)
     tiktok_url = models.URLField(blank=True)
 
+    name = models.CharField(
+        max_length=200,
+        help_text="Your name, used on invoices and other such things."
+    )
+    abn = models.CharField(
+        max_length=15,
+        help_text="The ABN put on invoices and the like",
+    )
+
     @property
     def twitter_url(self) -> t.Optional[str]:
         if not self.twitter_handle:
