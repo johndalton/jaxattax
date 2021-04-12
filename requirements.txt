@@ -13,7 +13,9 @@ asgiref==3.3.1
 beautifulsoup4==4.8.2
     # via wagtail
 boto3==1.17.45
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-amazon-ses
 botocore==1.20.45
     # via
     #   boto3
@@ -31,11 +33,11 @@ cryptography==3.4.7
     #   pyopenssl
     #   urllib3
 dj-database-url==0.5.0
-    # via django-heroku
+    # via -r requirements.in
+django-amazon-ses==4.0.0
+    # via -r requirements.in
 django-filter==2.4.0
     # via wagtail
-django-heroku==0.3.1
-    # via -r requirements.in
 django-modelcluster==5.1
     # via wagtail
 django-storages==1.11.1
@@ -47,8 +49,8 @@ django-treebeard==4.5.1
 django==3.1.7
     # via
     #   -r requirements.in
+    #   django-amazon-ses
     #   django-filter
-    #   django-heroku
     #   django-storages
     #   django-taggit
     #   django-treebeard
@@ -81,10 +83,8 @@ pillow==8.2.0
     # via wagtail
 psutil==5.8.0
     # via scout-apm
-psycopg2==2.8.6
-    # via
-    #   -r requirements.in
-    #   django-heroku
+psycopg2-binary==2.8.6
+    # via -r requirements.in
 pycparser==2.20
     # via cffi
 pyopenssl==20.0.1
@@ -97,7 +97,9 @@ pytz==2021.1
     #   django-modelcluster
     #   l18n
 requests==2.25.1
-    # via wagtail
+    # via
+    #   stripe
+    #   wagtail
 s3transfer==0.3.6
     # via boto3
 scout-apm==2.18.0
@@ -112,6 +114,8 @@ soupsieve==2.2.1
     # via beautifulsoup4
 sqlparse==0.4.1
     # via django
+stripe==2.56.0
+    # via -r requirements.in
 tablib[xls,xlsx]==3.0.0
     # via wagtail
 urllib3[secure]==1.26.4
@@ -131,7 +135,7 @@ wagtailnews==2.7.1
 webencodings==0.5.1
     # via html5lib
 whitenoise==5.2.0
-    # via django-heroku
+    # via -r requirements.in
 willow==1.4
     # via wagtail
 wrapt==1.12.1

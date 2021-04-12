@@ -1,0 +1,12 @@
+{% load jaxattax_tags %}
+{% get_cash_donations as cash_donations %}
+
+<ul>
+    {% for cash_donation in cash_donations %}
+        <li>
+            ${{ cash_donation.amount|floatformat:2 }}
+            from {{ cash_donation.name }}
+            on {{ cash_donation.date|date:"d/m/Y" }}
+        </li>
+    {% endfor %}
+</ul>

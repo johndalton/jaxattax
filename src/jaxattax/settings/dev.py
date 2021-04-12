@@ -1,4 +1,5 @@
-from jaxattax.settings.base import *
+from .base import *  # noqa: F401 F403
+from .base import BASE_DIR
 
 LOCAL_ROOT = BASE_DIR / "local"
 
@@ -19,3 +20,8 @@ DATABASES = {
 }
 
 SECRET_KEY = 'shhh not very secret'
+
+ALLOWED_HOSTS = ['*']
+
+EMAIL_HOST = 'mail'
+DEFAULT_FROM_EMAIL = 'jaxattax@example.com'

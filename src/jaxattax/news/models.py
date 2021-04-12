@@ -1,16 +1,15 @@
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
 from wagtailnews.decorators import newsindex
 from wagtailnews.models import (
     AbstractNewsItem, AbstractNewsItemRevision, NewsIndexMixin,
 )
 
 from jaxattax.mixins import PageWithBreadcrumbs
-from jaxattax.utils import Crumb
+from jaxattax.utils.breadcrumbs import Crumb
 
-from .. import blocks
+from . import blocks
 
 
 @newsindex
@@ -23,7 +22,7 @@ class NewsIndex(NewsIndexMixin, PageWithBreadcrumbs):
 
 class NewsItem(AbstractNewsItem):
     title = models.CharField(max_length=100)
-    body = StreamField(blocks.RichContentBlocks())
+    body = StreamField(blocks.NewsItemBlocks())
 
     panels = [
         FieldPanel('title'),

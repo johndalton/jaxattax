@@ -1,0 +1,14 @@
+{% extends "layouts/page.html" %}
+{% load jaxattax_tags %}
+{% load wagtailcore_tags %}
+{% block extra_head %}
+{{ super }}
+<script src="https://js.stripe.com/v3/"></script>
+<script>window.stripe = Stripe({{ STRIPE_PUBLISHABLE_KEY|json }});</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include_block page.body %}
+</div>
+{% endblock %}

@@ -1,9 +1,15 @@
 import dataclasses
+import json
 import typing as t
 
-from django import http, template
+from django import forms, http, template
 from django.core import paginator
+from django.core.serializers.json import DjangoJSONEncoder
+from django.template.context import RequestContext
+from django.utils.safestring import mark_safe
 from wagtail.core.models import Page, Site
+
+from jaxattax.donations.models import CashDonation
 
 register = template.Library()
 
@@ -96,18 +102,21 @@ def site_menu(context, active_path: t.Optional[str] = None):
 
 @register.inclusion_tag('tags/table_of_contents.html', takes_context=True)
 def table_of_contents(context, active_page: Page):
-    request = context['request']
-    site = Site.find_for_request(request)
-    home_page = site.root_page
-
     descendants = active_page.get_descendants().in_menu().live().specific()
     children = _as_tree(active_page, descendants)
 
-    return {'children': children, 'active_page': active_page}
+    return RequestContext(context['request'], {
+        'children': children,
+        'active_page': active_page,
+    })
 
 
 @register.inclusion_tag('tags/pagination.html', takes_context=True)
-def paginate(context: t.Mapping, paginator: paginator.Paginator, page: paginator.Page, base_url: t.Optional[str] = None):
+def paginate(
+    context: t.Mapping,
+    paginator: paginator.Paginator,
+    page: paginator.Page, base_url: t.Optional[str] = None,
+):
     request = context['request']
     query = request.GET
     if base_url is None:
@@ -151,3 +160,72 @@ def query_args(query: http.QueryDict, **kwargs: t.Dict[str, t.Optional[str]]):
         return ''
 
     return '?' + query.urlencode()
+
+
+@register.filter(name='json')
+def to_json(value):
+    return mark_safe(json.dumps(value, cls=DjangoJSONEncoder))
+
+
+@register.filter
+def add_class(bound_field: forms.BoundField, classes: str) -> forms.BoundField:
+    attrs = bound_field.field.widget.attrs
+    if 'class' in attrs:
+        attrs['class'] = f'{attrs["class"]} {classes}'
+    else:
+        attrs['class'] = classes
+    return bound_field
+
+
+@register.inclusion_tag('tags/form_field.html', takes_context=True)
+def form_field(
+    context: t.Mapping,
+    bound_field: forms.BoundField,
+    *,
+    group_class: t.Optional[str] = None,
+    prefix: t.Optional[str] = None,
+    suffix: t.Optional[str] = None,
+) -> dict:
+    field_context = {
+        'is_hidden': bound_field.is_hidden,
+        'bound_field': bound_field,
+        'label': str(bound_field.label),
+        'field_id': bound_field.id_for_label,
+        'group_class': ' ' + group_class if group_class else ''
+    }
+
+    if isinstance(bound_field.field.widget, forms.CheckboxInput):
+        field_context.update({
+            'is_checkbox': True,
+            'field': str(add_class(bound_field, 'form-check-input')),
+        })
+
+    else:
+        field_context.update({
+            'field': str(add_class(bound_field, 'form-control')),
+        })
+
+    if bound_field.help_text:
+        description_id = bound_field.id_for_label + '-description'
+        bound_field.field.widget.attrs['aria-describedby'] = description_id
+        field_context.update({
+            'description': bound_field.help_text,
+            'description_id': description_id,
+        })
+
+    if prefix or suffix:
+        field_context.update({
+            'surround': True,
+            'prefix': prefix,
+            'suffix': suffix,
+        })
+
+    return field_context
+
+
+@register.simple_tag
+def get_cash_donations():
+    return [
+        {'name': c.name, 'amount': c.amount, 'date': c.date}
+        for c in CashDonation.objects.all().order_by('-date', '-created')
+    ]

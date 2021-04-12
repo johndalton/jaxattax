@@ -1,17 +1,32 @@
 import os
 
-import django_heroku
+import dj_database_url
 
-from .base import *
-from .base import INSTALLED_APPS, WAGTAIL_SITE_NAME
+from .base import *  # noqa: F401 F403
+from .base import BASE_DIR, INSTALLED_APPS, WAGTAIL_SITE_NAME
 
-django_heroku.settings(locals())
+DATABASES = {
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True),
+}
+
+
+SECRET_KEY = os.environ['SECRET_KEY']
 
 
 INSTALLED_APPS = [
     'scout_apm.django',
     *INSTALLED_APPS,
 ]
+
+
+# Static file handling
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+os.makedirs(STATIC_ROOT, exist_ok=True)
+
+
+# Heroku makes up all sorts of names
+ALLOWED_HOSTS = ['*']
 
 
 # From: https://docs.djangoproject.com/en/3.1/topics/logging/
@@ -36,11 +51,13 @@ LOGGING = {
     },
 }
 
+# General AWS integration settings
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
 
 # Upload media files to s3
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'jaxewin-media'
 AWS_S3_REGION_NAME = 'ap-southeast-2'
 AWS_S3_FILE_OVERWRITE = False
@@ -53,5 +70,9 @@ SECURE_SSL_REDIRECT = True
 
 # Scout settings
 SCOUT_MONITOR = True
-SCOUT_KEY = os.getenv('SCOUT_KEY')
 SCOUT_NAME = WAGTAIL_SITE_NAME
+
+
+# Email sending
+EMAIL_BACKEND = 'django_amazon_ses.EmailBackend'
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']

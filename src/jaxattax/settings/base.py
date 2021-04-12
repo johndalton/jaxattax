@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+import stripe
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
@@ -18,15 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 # Application definition
 INSTALLED_APPS = [
     'jaxattax',
-    'jaxattax.pages',
-    'jaxattax.news',
+    'jaxattax.donations',
     'jaxattax.frontend',
+    'jaxattax.news',
+    'jaxattax.pages',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.settings',
-    'wagtail.contrib.styleguide',
+    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -112,6 +117,12 @@ MEDIA_URL = '/assets/media/'
 
 
 # Wagtail
-
 WAGTAIL_SITE_NAME = 'Jax Attax the State'
-WAGTAILNEWS_PAGINATOR = 'jaxattax.utils.paginate'
+WAGTAILNEWS_PAGINATOR = 'jaxattax.utils.pagination.paginate'
+
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
+STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
+stripe.api_key = STRIPE_API_KEY

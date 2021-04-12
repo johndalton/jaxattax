@@ -1,0 +1,8 @@
+Receipt for donation to {{ from_name }}
+
+Date: {{ date }}
+From: {{ from_name }}
+ABN: {{ from_abn }}
+
+To: {{ to_name }}
+Donation: ${{ amount|floatformat:2 }}
