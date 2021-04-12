@@ -1,0 +1,261 @@
+$color-pink: darken(#F7A8B8, 5%);
+$color-blue: darken(#55CDFC, 5%);
+
+$color-pink-text: darken($color-pink, 40%);
+$color-blue-text: darken($color-blue, 40%);
+
+$color-light-grey: #dddddd;
+
+$theme-colors: (
+  "primary": $color-blue,
+  "secondary": $color-pink,
+);
+$link-color: darken($color-blue, 20%);
+
+@import "~bootstrap/scss/bootstrap";
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	> main {
+		flex: 1;
+	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Questrial', sans-serif;
+}
+
+.page-header {
+	margin-bottom: 0rem;
+}
+.page-footer {
+	margin-top: 3rem;
+}
+
+.page-title {
+	background-color: $color-blue;
+	overflow: hidden;
+
+	h1 {
+		font-size: 3rem;
+		margin: 3rem 0 3rem;
+		font-weight: normal;
+		text-align: center;
+
+		@include media-breakpoint-up("md") {
+			text-align: left;
+		}
+		a { color: white; }
+		img {
+			display: block;
+			margin: 0 auto;
+			width: auto;
+			max-height: 8rem;
+			@include media-breakpoint-up("sm") {
+				max-height: 10rem;
+			}
+			@include media-breakpoint-up("md") {
+				max-height: 10rem;
+				display: inline-block;
+				margin-right: 1rem;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+.page-nav {
+	background-color: $color-pink;
+	margin-bottom: 1rem;
+
+	.navbar {
+		padding: 0;
+		.nav-link {
+			padding: 1rem 2rem;
+			color: rgba(0, 0, 0, 0.75);
+		}
+		.nav-item.active, .nav-item:hover {
+			.nav-link {
+				background-color: white;
+				color: black;
+				text-decoration: none;
+			}
+		}
+	}
+
+	&--menu {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		@include media-breakpoint-up("sm") {
+			flex-direction: row;
+		}
+		@include media-breakpoint-up("sm") {
+			justify-content: flex-start;
+		}
+		height: 3.5rem;
+		margin: 0;
+		padding: 0;
+
+		& li {
+			list-style-type: none;
+			margin: 0 0.5rem;
+			padding: 0;
+			text-transform: uppercase;
+			text-align: center;
+			a {
+				display: block;
+				line-height: 1.5rem;
+				padding: 1rem 2rem;
+				color: white;
+			}
+		}
+	}
+}
+
+.footer-social {
+	overflow: hidden;
+	background-color: $color-pink;
+	color: $color-pink-text;
+	padding: 1rem 0;
+	text-align: center;
+	ul {
+		padding-left: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		@include media-breakpoint-up("md") {
+			flex-direction: row;
+		}
+		flex-wrap: wrap;
+		justify-content: center;
+		li {
+			list-style-type: none;
+			padding: 0 0.5rem;
+			&:first-child {
+				border-left: none;
+			}
+			a {
+				color: $color-pink-text;
+				font-weight: bold;
+			}
+		}
+	}
+}
+.footer-copyright {
+	overflow: hidden;
+	background-color: $color-blue;
+	color: $color-blue-text;
+	padding: 1rem 0;
+	text-align: center;
+}
+
+.toc {
+	margin-bottom: 1rem;
+	&--pages {
+		li {
+			list-style-type: disc;
+			&.active > a {
+				color: $body-color;
+			}
+		}
+	}
+}
+
+.ctas {
+	@include media-breakpoint-up("md") {
+		@include make-row();
+		.cta {
+			@include make-col-ready();
+			flex: 1;
+		}
+	}
+}
+.cta {
+	display: flex;
+	flex-direction: column;
+	&--image {
+		margin-bottom: 1rem;
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+	}
+	&--content { flex: 1; }
+}
+
+.large-image {
+	border: 1px solid $color-light-grey;
+	border-radius: 1rem;
+	padding: 1rem;
+
+	&--image {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		margin: 0 auto;
+	}
+	&--caption {
+		& :last-child {
+			margin-bottom: 0;
+		}
+	}
+	@include media-breakpoint-up("md") {
+		&__left, &__right {
+			clear: both;
+			max-width: 45%;
+			margin-bottom: 1rem;
+		}
+		&__left {
+			float: left;
+			margin-right: 1rem;
+		}
+		&__right {
+			float: left;
+			margin-right: 1rem;
+		}
+	}
+	@include media-breakpoint-up("lg") {
+		&__left, &__right {
+			max-width: 30%;
+		}
+	}
+}
+
+.side-image {
+	@include media-breakpoint-up("md") {
+		@include make-row();
+
+		align-items: center;
+
+		&__left {
+			flex-direction: row;
+		}
+		&__right {
+			flex-direction: row-reverse;
+		}
+
+		&--image {
+			@include make-col-ready();
+			@include make-col(3);
+		}
+		&--content {
+			@include make-col-ready();
+			@include make-col(9);
+		}
+	}
+}
+
+.section {
+	margin-bottom: 1rem;
+	overflow: hidden;
+}
+
+.rich-content {
+	> :last-child {
+		margin-bottom: 0;
+	}
+}

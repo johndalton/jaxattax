@@ -1,0 +1,28 @@
+{
+  "name": "jax-attax-frontend",
+  "contriburors": [
+    {
+      "name": "Tim Heap",
+      "email": "tim@timheap.me"
+    }
+  ],
+  "repository": "https:/github.com/timheap/jax-attax",
+  "version": "1.0.0",
+  "devDependencies": {
+    "parcel": "1.12.3",
+    "sass": "^1.26.5"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.12.9"
+  },
+  "scripts": {
+    "start": "parcel watch --public-url /assets/static/ --out-dir src/jaxattax/frontend/static src/jaxattax/frontend/src/style.scss src/jaxattax/frontend/src/script.js",
+    "build": "parcel build --public-url /assets/static/ --out-dir src/jaxattax/frontend/static src/jaxattax/frontend/src/style.scss src/jaxattax/frontend/src/script.js"
+  },
+  "private": true,
+  "main": "index.js",
+  "author": "Tim Heap <tim@timheap.me>",
+  "license": "MIT"
+}

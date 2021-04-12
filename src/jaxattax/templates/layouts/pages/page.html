@@ -1,0 +1,11 @@
+{% extends "layouts/page.html" %}
+{% load jaxattax_tags %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}page--page{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% include_block page.body %}
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% load wagtailcore_tags %}
+<nav class="toc" role="navigation" aria-label="Table of contents">
+<ul class="toc--pages">
+    {% for node in children %}
+    {% include "tags/_toc_node.html" with node=node %}
+    {% endfor %}
+</ul>
+</nav>

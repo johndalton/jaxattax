@@ -1,0 +1,92 @@
+<!doctype html>
+{% load static %}
+{% load jaxattax_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% wagtail_site as current_site %}
+<html lang="en-au">
+<head>
+<meta charset="utf-8">
+<title>{% block page_title %}{{ settings.pages.SiteDecorations.site_name }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Quicksand:400,700|Questrial" rel="stylesheet" />
+<link href="{% static "style.css" %}" rel="stylesheet" type="text/css" media="all" />
+{% block extra_head %}{% endblock %}
+</head>
+<body {% block body_attrs%}class="{% block body_class %}{% endblock %}"{% endblock %}>
+
+<header class="page-header">
+<div class="page-title">
+    <div class="container">
+        <h1><a href="#">
+            {% image settings.pages.SiteDecorations.logo width-300 class="page-header--logo" %}
+            {{ settings.pages.SiteDecorations.site_name }}
+        </a></h1>
+    </div>
+</div>
+<div class="page-nav">
+    <div class="container">
+        {% block page_nav %}{% site_menu %}{% endblock %}
+    </div>
+</div>
+{% block breadcrums %}
+{% if breadcrumbs %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% for crumb in breadcrumbs %}
+                {% if forloop.last %}
+                    <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+                {% else %}
+                    <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </nav>
+</div>
+{% endif %}
+{% endblock %}
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="page-footer">
+<div class="footer-social">
+    <div class="container">
+        <ul class="contact">
+            {% with settings.pages.ContactDetails as contact %}
+                {% if contact.email %}
+                    <li><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></li>
+                {% endif %}
+                {% if contact.twitter_handle %}
+                    <li><a href="{{ contact.twitter_url }}">@{{ contact.twitter_handle }}</a> on Twitter</li>
+                {% endif %}
+                {% if contact.instagram_handle %}
+                    <li><a href="{{ contact.instagram_url }}">@{{ contact.instagram_handle }}</a> on Instagram</li>
+                {% endif %}
+                {% if contact.facebook_url %}
+                    <li><a href="{{ contact.facebook_url }}">Facebook memes</a></li>
+                {% endif %}
+                {% if contact.tiktok_url %}
+                    <li><a href="{{ contact.tiktok_url }}">TikTok</a></li>
+                {% endif %}
+            {% endwith %}
+        </ul>
+    </div>
+</div>
+<div class="footer-copyright">
+    <div class="container">
+        <p>&copy; {{ settings.pages.SiteDecorations.site_name }} 2021. All rights reserved.</p>
+        <p>{{ settings.pages.SiteDecorations.authorized_by }}</p>
+    </div>
+</div>
+</footer>
+
+<script src="{% static "script.js" %}"></script>
+</body>
+</html>

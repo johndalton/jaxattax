@@ -1,0 +1,16 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="large-image large-image__{{ block.value.alignment }}">
+    {% image block.value.image original as original %}
+    <a href="{{ original.url }}" target="_blank">
+        {% if block.value.alignment == "full-width" %}
+            {% image block.value.image max-1280x720 class="large-image--image" %}
+        {% else %}
+            {% image block.value.image max-200x600 class="large-image--image" %}
+        {% endif %}
+    </a>
+    {% if block.value.caption %}
+    <div class="large-image--caption">{{ block.value.caption|richtext }}</div>
+    {% endif %}
+</div>

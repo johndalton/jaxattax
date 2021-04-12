@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+<div class="cta">
+    <h2 class="cta--heading">{{ block.heading }}</h2>
+    <a class="cta--image" href="{% pageurl block.link %}">
+        {% image block.image fill-600x300 %}
+    </a>
+    <div class="cta--content">{{ block.content|richtext }}</div>
+    <a class="cta--link btn btn-primary btn-block" href="{% pageurl block.link %}">{{ block.call_to_action }}</a>
+</div>
