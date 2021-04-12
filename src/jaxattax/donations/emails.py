@@ -15,6 +15,7 @@ def _make_receipt(
 ) -> EmailMultiAlternatives:
     subject = f"Tax invoice #{cash_donation.id} for donation to {contact_details.name}"
     from_email = Address(display_name=contact_details.name, addr_spec=settings.DEFAULT_FROM_EMAIL)
+    reply_to_email = Address(display_name=contact_details.name, addr_spec=contact_details.email)
     to_email = Address(display_name=cash_donation.name, addr_spec=cash_donation.email)
 
     context = {
@@ -32,6 +33,7 @@ def _make_receipt(
         body=text_body,
         from_email=from_email,
         to=[to_email],
+        reply_to=[reply_to_email],
     )
     email.attach_alternative(html_body, 'text/html')
     return email
