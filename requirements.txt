@@ -13,7 +13,9 @@ asgiref==3.3.1
 beautifulsoup4==4.8.2
     # via wagtail
 boto3==1.17.45
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-amazon-ses
 botocore==1.20.45
     # via
     #   boto3
@@ -32,6 +34,8 @@ cryptography==3.4.7
     #   urllib3
 dj-database-url==0.5.0
     # via -r requirements.in
+django-amazon-ses==4.0.0
+    # via -r requirements.in
 django-filter==2.4.0
     # via wagtail
 django-modelcluster==5.1
@@ -45,6 +49,7 @@ django-treebeard==4.5.1
 django==3.1.7
     # via
     #   -r requirements.in
+    #   django-amazon-ses
     #   django-filter
     #   django-storages
     #   django-taggit
