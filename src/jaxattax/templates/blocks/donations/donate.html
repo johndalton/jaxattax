@@ -1,10 +1,10 @@
 {% load jaxattax_tags %}
-<form action="{% url "create_session" %}" method="post" data-donate>
+<form action="{% url "create_session" %}" method="post" data-donate class="donate-form">
     {% csrf_token %}
     {% form_field donate_form.page %}
     <div class="form-row">
-        {% form_field donate_form.name group_class="col-md-4" %}
-        {% form_field donate_form.amount|add_class:"no-spinner" group_class="col-md-4" prefix="$" %}
+        {% form_field donate_form.name group_class="col-md-6 col-lg-4" %}
+        {% form_field donate_form.amount|add_class:"no-spinner" group_class="col-md-6 col-lg-4" prefix="$" %}
     </div>
     {% form_field donate_form.consent %}
     <button class="btn btn-primary" type="submit">Donate!</button>
