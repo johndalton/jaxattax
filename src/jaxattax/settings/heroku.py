@@ -76,3 +76,7 @@ SCOUT_NAME = WAGTAIL_SITE_NAME
 # Email sending
 EMAIL_BACKEND = 'django_amazon_ses.EmailBackend'
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+
+
+# Google analytics
+GOOGLE_ANALYTICS_MEASUREMENT_ID = os.environ['GOOGLE_ANALYTICS_MEASUREMENT_ID']
