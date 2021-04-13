@@ -232,8 +232,12 @@ def get_cash_donations():
     ]
 
 
-@register.inclusion_tag('tags/analytics.html')
-def analytics():
+@register.inclusion_tag('tags/analytics.html', takes_context=True)
+def analytics(context):
+    request = context['request']
     return {
+        'request': request,
+        # Don't bother tracking people if they are logged in to the admin
+        'is_logged_in': request.user.is_authenticated,
         'GOOGLE_ANALYTICS_MEASUREMENT_ID': getattr(settings, 'GOOGLE_ANALYTICS_MEASUREMENT_ID', None),
     }
