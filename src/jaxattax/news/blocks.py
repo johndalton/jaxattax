@@ -2,4 +2,4 @@ from jaxattax import blocks
 
 
 class NewsItemBlocks(blocks.RichTextBlocks):
-    large_image = blocks.LargeImageBlock()
+    captioned_image = blocks.CaptionedImageBlock()

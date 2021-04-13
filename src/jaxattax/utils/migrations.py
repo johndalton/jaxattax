@@ -1,7 +1,11 @@
 import copy
+import json
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import router
 from django.db.migrations import RunPython
+from django.db.models import TextField
+from django.db.models.functions import Cast
 from wagtail.core.blocks import StreamValue
 from wagtail.core.fields import StreamField
 
@@ -51,20 +55,24 @@ class StreamFieldDataMigration(RunPython):
     def reversible(self):
         return self.backwards_code is not None
 
-    def migrate_field(self, apps, code):
-        model = apps.get_model(self.model_name)
+    def migrate_field(self, app_label, apps, code):
+        model = apps.get_model(app_label, self.model_name)
         field: StreamField = model._meta.get_field(self.name)
 
-        for instance in model.objects.all():
-            in_data = getattr(instance, field.attname)._raw_data
+        text_name = field.attname + '__text'
+        annotation = {text_name: Cast(field.column, TextField())}
+        for instance in model.objects.annotate(**annotation).all():
+            in_data = json.loads(getattr(instance, text_name))
             out_data = code(instance, copy.deepcopy(in_data))
             if in_data != out_data:
+                out_str = json.dumps(out_data, cls=DjangoJSONEncoder)
+                # Bypass any validation by saving the encoded JSON. The
+                # migrated JSONish data might not be valid stream field data
+                # for this field at this point in the field migration.
                 setattr(instance, field.attname, StreamValue(
-                    field.stream_block,
-                    out_data,
-                    is_lazy=True,
+                    field.stream_block, [], raw_text=out_str
                 ))
-                instance.save()
+                instance.save(update_fields=[field.name])
 
     def database_forwards(
         self, app_label, schema_editor, from_state, to_state,
@@ -73,7 +81,7 @@ class StreamFieldDataMigration(RunPython):
         # reloaded in case any are delayed.
         from_state.clear_delayed_apps_cache()
         if router.allow_migrate(schema_editor.connection.alias, app_label):
-            self.migrate_field(from_state.apps, self.forwards_code)
+            self.migrate_field(app_label, from_state.apps, self.forwards_code)
 
     def database_backwards(
         self, app_label, schema_editor, from_state, to_state,
@@ -81,4 +89,4 @@ class StreamFieldDataMigration(RunPython):
         if self.backwards_code is None:
             raise NotImplementedError("You cannot reverse this operation")
         if router.allow_migrate(schema_editor.connection.alias, app_label):
-            self.migrate_field(from_state.apps, self.backwards_code)
+            self.migrate_field(app_label, from_state.apps, self.backwards_code)

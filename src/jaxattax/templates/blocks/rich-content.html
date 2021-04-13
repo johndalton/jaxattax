@@ -1,4 +1,5 @@
 {% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 
 <div class="rich-content">
     {% for block in value %}
@@ -6,12 +7,16 @@
         <h2>{{ block.value }}</h2>
         {% elif block.block_type == 'subheading' %}
         <h3>{{ block.value }}</h3>
+        {% elif block.block_type == 'hero_image' %}
+            {% image block.value max-1280x720 class="hero-image" %}
+        {% elif block.block_type == 'hero_text' %}
+        <div class="hero-text rich-text">
+            {{ block.value|richtext }}
+        </div>
         {% elif block.block_type == 'rich_text' %}
             {{ block.value|richtext }}
         {% else %}
-        <div class="block--{{ block.block_type }}">
-            {% include_block block %}
-        </div>
+        {% include_block block %}
         {% endif %}
     {% endfor %}
 </div>
