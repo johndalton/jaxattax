@@ -3,6 +3,7 @@ import json
 import typing as t
 
 from django import forms, http, template
+from django.conf import settings
 from django.core import paginator
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template.context import RequestContext
@@ -229,3 +230,10 @@ def get_cash_donations():
         {'name': c.name, 'amount': c.amount, 'date': c.date}
         for c in CashDonation.objects.all().order_by('-date', '-created')
     ]
+
+
+@register.inclusion_tag('tags/analytics.html')
+def analytics():
+    return {
+        'GOOGLE_ANALYTICS_MEASUREMENT_ID': getattr(settings, 'GOOGLE_ANALYTICS_MEASUREMENT_ID', None),
+    }
