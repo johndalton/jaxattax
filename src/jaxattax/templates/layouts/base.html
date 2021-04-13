@@ -11,6 +11,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="keywords" content="" />
 <meta name="description" content="" />
+{% image settings.pages.SiteDecorations.logo max-72x72 format-png as favicon %}
+<link href="{{ favicon.url }}" rel="shortcut icon" type="{{ favicon.format }}">
 <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" />
 <link href="{% static "style.css" %}" rel="stylesheet" type="text/css" media="all" />
 {% analytics %}
