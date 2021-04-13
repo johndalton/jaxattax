@@ -1,8 +1,37 @@
+import dataclasses
+import functools
+
 from wagtail.core import blocks
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 
 from . import base_blocks
+
+
+@functools.total_ordering
+@dataclasses.dataclass
+class Group:
+    name: str
+    order: int
+
+    def __lt__(self, other):
+        if isinstance(other, str):
+            return True
+        if not isinstance(other, Group):
+            return NotImplemented
+        return self.order < other.order
+
+    def deconstruct(self):
+        return "jaxattax.blocks.Group", (), dataclasses.asdict(self)
+
+    def __str__(self):
+        return self.name
+
+
+TEXT = Group("Text", 100)
+HERO = Group("Big and bold", 200)
+IMAGES = Group("Images", 300)
+MISC = Group("The kitchen sink", 900)
 
 
 class LinkBlock(blocks.StructBlock):
@@ -14,9 +43,13 @@ class RichTextBlocks(blocks.StreamBlock):
     """
     Just rich text, headings, etc.
     """
-    heading = blocks.CharBlock(icon='fa-header')
-    subheading = blocks.CharBlock(icon='fa-header')
-    rich_text = blocks.RichTextBlock(label="Text", features=base_blocks.BLOCK_FEATURES)
+    heading = blocks.CharBlock(icon='fa-header', group=TEXT)
+    subheading = blocks.CharBlock(icon='fa-header', group=TEXT)
+    rich_text = blocks.RichTextBlock(
+        label="Text",
+        features=base_blocks.BLOCK_FEATURES,
+        group=TEXT,
+    )
 
     class Meta:
         label = "Rich text content"
@@ -36,9 +69,10 @@ class ButtonsBlock(base_blocks.DeclarativeListBlock):
         label = "A bunch of buttons"
         icon = 'fa-link'
         template = 'blocks/buttons.html'
+        group = MISC
 
 
-class LargeImageBlock(blocks.StructBlock):
+class CaptionedImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     alignment = blocks.ChoiceBlock(
         choices=[
@@ -55,41 +89,14 @@ class LargeImageBlock(blocks.StructBlock):
     )
 
     class Meta:
-        label = "Image"
+        label = "Image with caption"
         help_text = "An image with a short caption"
         icon = 'fa-image'
-        template = 'blocks/large-image.html'
+        template = 'blocks/captioned-image.html'
+        group = IMAGES
 
 
-class TableOfContentsBlock(blocks.StructBlock):
-    class Meta:
-        label = "Table of contents"
-        help_text = "Displays a table of contents of pages under this page"
-        icon = 'fa-list'
-        template = 'blocks/table-of-contents.html'
-
-
-class CashDonationsBlock(blocks.StructBlock):
-    class Meta:
-        label = "Cash donations received"
-        help_text = "All the cash donations you've received. Real time accountability!"
-        icon = 'fa-dollar'
-        template = 'blocks/cash-donations.html'
-
-
-class RichContentBlocks(RichTextBlocks):
-    buttons = ButtonsBlock()
-    large_image = LargeImageBlock()
-    table_of_contents = TableOfContentsBlock()
-    cash_donations = CashDonationsBlock()
-
-    class Meta:
-        label = "Rich content"
-        icon = 'fa-address-card'
-        template = 'blocks/rich-content.html'
-
-
-class SideImageSection(blocks.StructBlock):
+class SideImageBlock(blocks.StructBlock):
     """Feature image with rich text next to it"""
     image = ImageChooserBlock()
     alignment = blocks.ChoiceBlock([
@@ -102,6 +109,50 @@ class SideImageSection(blocks.StructBlock):
         label = "Text next to an image"
         icon = 'fa-address-card'
         template = 'blocks/side-image.html'
+        group = IMAGES
+
+
+class TableOfContentsBlock(blocks.StructBlock):
+    class Meta:
+        label = "Table of contents"
+        help_text = "Displays a table of contents of pages under this page"
+        icon = 'fa-list'
+        template = 'blocks/table-of-contents.html'
+        group = MISC
+
+
+class CashDonationsBlock(blocks.StructBlock):
+    class Meta:
+        label = "Cash donations received"
+        help_text = "All the cash donations you've received. Real time accountability!"
+        icon = 'fa-dollar'
+        template = 'blocks/cash-donations.html'
+        group = MISC
+
+
+class RichContentBlocks(RichTextBlocks):
+    hero_text = blocks.RichTextBlock(
+        label="Hero text",
+        help_text="Big and bold, use for important text at the start of a page.",
+        features=base_blocks.BLOCK_FEATURES,
+        group=HERO,
+    )
+    hero_image = ImageChooserBlock(
+        label="Hero image",
+        help_text="Big image, use as the feature image of a page.",
+        group=HERO,
+    )
+
+    buttons = ButtonsBlock()
+    captioned_image = CaptionedImageBlock()
+    side_image = SideImageBlock()
+    table_of_contents = TableOfContentsBlock()
+    cash_donations = CashDonationsBlock()
+
+    class Meta:
+        label = "Rich content"
+        icon = 'fa-address-card'
+        template = 'blocks/rich-content.html'
 
 
 class CallToActionBlock(blocks.StructBlock):
@@ -134,7 +185,6 @@ class RichContentSection(RichContentBlocks):
 class PageBlocks(blocks.StreamBlock):
     rich_content = RichContentSection()
     calls_to_action = CallsToActionSection()
-    side_image = SideImageSection()
 
 
 class HomePageBlocks(PageBlocks):
