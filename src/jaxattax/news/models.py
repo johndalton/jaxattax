@@ -15,6 +15,7 @@ from . import blocks
 @newsindex
 class NewsIndex(NewsIndexMixin, PageWithBreadcrumbs):
     newsitem_model = 'NewsItem'
+    show_in_menus_default = True
     parent_page_types = ['pages.HomePage']
 
     template = 'layouts/news/news_index.html'

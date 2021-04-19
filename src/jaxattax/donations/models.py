@@ -1,9 +1,6 @@
 from django.db import models
 from wagtail.admin.edit_handlers import (
-    FieldPanel,
-    ObjectList,
-    StreamFieldPanel,
-    TabbedInterface,
+    FieldPanel, ObjectList, StreamFieldPanel, TabbedInterface,
 )
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.fields import StreamField
@@ -43,6 +40,7 @@ class DonatePage(RoutablePageMixin, PageWithBreadcrumbs, Page):
     template = 'layouts/donations/donate.html'
     thanks_template = 'layouts/donations/thanks.html'
 
+    show_in_menus_default = True
     parent_page_types = ['pages.HomePage', 'pages.Page']
 
     _v_index = route('^$', 'index')(views['donate_index'])

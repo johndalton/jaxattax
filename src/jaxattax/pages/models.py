@@ -33,6 +33,7 @@ class Page(PageWithBreadcrumbs):
 
     template = 'layouts/pages/page.html'
 
+    show_in_menus_default = True
     parent_page_types = ['pages.HomePage', 'Page']
 
 
