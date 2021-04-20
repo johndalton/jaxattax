@@ -28,3 +28,11 @@ $ docker-compose exec backend ./src/manage.py createsuperuser
 ```
 
 Visit the admin at <http://localhost/cms>.
+
+### Stripe
+
+Invoke the `payments` profile in `docker-compose`:
+
+```shell
+$ docker-compose --profile payments up
+```

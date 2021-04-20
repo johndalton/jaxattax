@@ -56,6 +56,7 @@ services:
 
   stripe:
     image: stripe/stripe-cli:latest
+    profiles: ["payments"]
     command: listen --forward-to http://backend:8000/_donations/webhook/
     env_file:
       - './.env'
