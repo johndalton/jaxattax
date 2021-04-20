@@ -3,7 +3,9 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
 from wagtailnews.decorators import newsindex
 from wagtailnews.models import (
-    AbstractNewsItem, AbstractNewsItemRevision, NewsIndexMixin,
+    AbstractNewsItem,
+    AbstractNewsItemRevision,
+    NewsIndexMixin
 )
 
 from jaxattax.mixins import PageWithBreadcrumbs

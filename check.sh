@@ -1,6 +1,7 @@
 #!/bin/bash
 
 main() {
+	try isort src --check --diff
 	try pytest
 
 	if [[ "${#failures}" -ne 0 ]] ; then
