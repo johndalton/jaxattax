@@ -20,24 +20,18 @@ services:
       context: .
       dockerfile: Dockerfile
       target: backend
-
     command: ./src/manage.py runserver 0.0.0.0:8000
-
     ports:
       - '80:8000'
-
     volumes:
       - './src:/opt/jaxattax/src'
       - './local:/opt/jaxattax/local'
-
     env_file:
       - './.env'
     environment:
       - 'DJANGO_SETTINGS_MODULE=jaxattax.settings.dev'
-
     depends_on:
       - database
-
     links:
       - mail
       - frontend
@@ -53,6 +47,20 @@ services:
     image: djfarrelly/maildev
     ports:
       - "9000:80"
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testing
+    profiles: ["test"]
+    command: ./check.sh
+    volumes:
+      - './check.sh:/opt/jaxattax/check.sh'
+      - './pyproject.toml:/opt/jaxattax/pyproject.toml'
+      - './src:/opt/jaxattax/src'
+    depends_on:
+      - database
 
   stripe:
     image: stripe/stripe-cli:latest

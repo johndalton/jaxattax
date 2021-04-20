@@ -36,3 +36,18 @@ Invoke the `payments` profile in `docker-compose`:
 ```shell
 $ docker-compose --profile payments up
 ```
+
+
+### Testing
+
+Run the `test` container:
+
+```shell
+$ docker-compose run test
+```
+
+For an interactive session, use:
+
+```shell
+$ docker-compose run test bash
+```
