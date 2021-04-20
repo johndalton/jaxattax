@@ -1,4 +1,6 @@
 -r requirements.txt
+flake8
 isort
+pyproject-flake8
 pytest
 pytest-django

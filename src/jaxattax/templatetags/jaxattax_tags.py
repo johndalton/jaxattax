@@ -91,9 +91,12 @@ def site_menu(context, active_path: t.Optional[str] = None):
 
     children = _as_tree(home_page, descendants)
 
-    menu_items = [
-        MenuEntry(title='Homepage', url=home_page.get_url(request=request), is_active=active_path=='/')
-    ] + [
+    home_page_menu = MenuEntry(
+        title='Homepage',
+        url=home_page.get_url(request=request),
+        is_active=(active_path == '/'),
+    )
+    menu_items = [home_page_menu] + [
         MenuEntry.for_page_tree(page_tree, request=request, active_path=active_path)
         for page_tree in children
     ]

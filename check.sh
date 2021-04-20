@@ -2,6 +2,7 @@
 
 main() {
 	try isort src --check --diff
+	try pflake8 src
 	try pytest
 
 	if [[ "${#failures}" -ne 0 ]] ; then

@@ -6,8 +6,6 @@ import wagtail.core.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
-import jaxattax.blocks
-
 
 class Migration(migrations.Migration):
 

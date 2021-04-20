@@ -5,6 +5,9 @@ use_parentheses = true
 ensure_newline_before_comments = true
 color_output = true
 
+[tool.flake8]
+extend-ignore = "E501,"
+
 [tool.pytest.ini_options]
 testpaths = [
 	"src/tests",
