@@ -1,6 +1,36 @@
 #!/bin/bash
 
 main() {
+	if [[ $# -gt 0 ]] ; then
+		if [[ $# -eq 1 && "$1" == "--docker" ]] ; then
+			run_in_docker
+		else
+			echo "Usage: $0 [--docker]" >&2
+			exit 1
+		fi
+	else
+		commands=("isort" "pflake8" "pytest")
+		for x in "${commands[@]}" ; do
+			if ! command -V "$x" &>/dev/null ; then
+				(
+					echo "Could not find '$x' command. Did you mean to run this in the docker container?"
+					echo ""
+					echo "Usage: $0 [--docker]"
+				) >&2
+				exit 1
+			fi
+		done
+
+		run
+	fi
+}
+
+run_in_docker() {
+	echo running in docker
+	docker-compose run --rm test
+}
+
+run() {
 	try isort src --check --diff
 	try pflake8 src
 	try pytest
@@ -25,4 +55,4 @@ mark_fail() {
 	failures+=("$1")
 }
 
-main
+main "$@"
