@@ -1,9 +1,10 @@
-from wagtail.core.models import Page
+import wagtail.core.models
 
 from jaxattax.utils.breadcrumbs import breadcrumbs_for_page
 
 
-class PageWithBreadcrumbs(Page):
+class Page(wagtail.core.models.Page):
+    """Base class for all Wagtail Pages in this site"""
     class Meta:
         abstract = True
 

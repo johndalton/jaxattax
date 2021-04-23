@@ -4,7 +4,7 @@ import wagtail.core.fields
 import wagtail.images.blocks
 from django.db import migrations
 
-import jaxattax.blocks
+import jaxattax.common.blocks
 from jaxattax.utils.migrations import StreamFieldDataMigration
 
 
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='newsitem',
             name='body',
-            field=wagtail.core.fields.StreamField([('heading', wagtail.core.blocks.CharBlock(group=jaxattax.blocks.Group(name='Text', order=100), icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(group=jaxattax.blocks.Group(name='Text', order=100), icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], group=jaxattax.blocks.Group(name='Text', order=100), label='Text')), ('captioned_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('alignment', wagtail.core.blocks.ChoiceBlock(choices=[('full-width', 'Full width'), ('left', 'Left'), ('right', 'Right')])), ('caption', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link'], help_text='Some short text describing the image', required=False))]))]),
+            field=wagtail.core.fields.StreamField([('heading', wagtail.core.blocks.CharBlock(group=jaxattax.common.blocks.Group(name='Text', order=100), icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(group=jaxattax.common.blocks.Group(name='Text', order=100), icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], group=jaxattax.common.blocks.Group(name='Text', order=100), label='Text')), ('captioned_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('alignment', wagtail.core.blocks.ChoiceBlock(choices=[('full-width', 'Full width'), ('left', 'Left'), ('right', 'Right')])), ('caption', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link'], help_text='Some short text describing the image', required=False))]))]),
         ),
         StreamFieldDataMigration(
             model_name='newsitem',

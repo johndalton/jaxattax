@@ -10,8 +10,6 @@ import wagtailnews.models
 from django.conf import settings
 from django.db import migrations, models
 
-import jaxattax.blocks
-
 
 class Migration(migrations.Migration):
 
@@ -38,7 +36,7 @@ class Migration(migrations.Migration):
                 ('live', models.BooleanField(default=True, editable=False, verbose_name='Live')),
                 ('has_unpublished_changes', models.BooleanField(default=False, editable=False, verbose_name='Has unpublished changes')),
                 ('title', models.CharField(max_length=100)),
-                ('body', wagtail.core.fields.StreamField([('heading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], label='Text')), ('side_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('alignment', wagtail.core.blocks.ChoiceBlock(choices=[('left', 'Left'), ('right', 'Right')])), ('content', wagtail.core.blocks.StreamBlock([('heading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], label='Text'))]))])), ('buttons', jaxattax.blocks.ButtonsBlock()), ('large_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('caption', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link']))]))])),
+                ('body', wagtail.core.fields.StreamField([('heading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], label='Text')), ('side_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('alignment', wagtail.core.blocks.ChoiceBlock(choices=[('left', 'Left'), ('right', 'Right')])), ('content', wagtail.core.blocks.StreamBlock([('heading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], label='Text'))]))])), ('buttons', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('text', wagtail.core.blocks.CharBlock()), ('link', wagtail.core.blocks.StructBlock([('page', wagtail.core.blocks.PageChooserBlock()), ('document', wagtail.documents.blocks.DocumentChooserBlock())]))]))), ('large_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('caption', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link']))]))])),
                 ('newsindex', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='wagtailcore.page')),
             ],
             options={

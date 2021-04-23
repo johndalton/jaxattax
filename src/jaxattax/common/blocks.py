@@ -1,11 +1,32 @@
 import dataclasses
 import functools
+import typing as t
 
 from wagtail.core import blocks
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 
-from . import base_blocks
+# Rich text feature sets
+INLINE_FEATURES = ['bold', 'italic', 'link', 'document-link']
+BLOCK_FEATURES = INLINE_FEATURES + ['ol', 'ul', 'hr', 'embed']
+
+
+class DeclarativeListBlock(blocks.ListBlock):
+    child_block = None
+
+    def __init__(
+        self,
+        child_block: t.Union[None, t.Type[blocks.Block], blocks.Block] = None,
+        **kwargs,
+    ):
+        if child_block is None:
+            child_block = self.child_block
+        super().__init__(child_block, **kwargs)
+
+    def deconstruct(self):
+        _, args, kwargs = super().deconstruct()
+        args = (self.child_block, *args)
+        return 'wagtail.core.blocks.ListBlock', args, kwargs
 
 
 @functools.total_ordering
@@ -22,7 +43,7 @@ class Group:
         return self.order < other.order
 
     def deconstruct(self):
-        return "jaxattax.blocks.Group", (), dataclasses.asdict(self)
+        return "jaxattax.common.blocks.Group", (), dataclasses.asdict(self)
 
     def __str__(self):
         return self.name
@@ -47,7 +68,7 @@ class RichTextBlocks(blocks.StreamBlock):
     subheading = blocks.CharBlock(icon='fa-header', group=TEXT)
     rich_text = blocks.RichTextBlock(
         label="Text",
-        features=base_blocks.BLOCK_FEATURES,
+        features=BLOCK_FEATURES,
         group=TEXT,
     )
 
@@ -62,7 +83,7 @@ class ButtonBlock(blocks.StructBlock):
     link = LinkBlock()
 
 
-class ButtonsBlock(base_blocks.DeclarativeListBlock):
+class ButtonsBlock(DeclarativeListBlock):
     child_block = ButtonBlock()
 
     class Meta:
@@ -84,7 +105,7 @@ class CaptionedImageBlock(blocks.StructBlock):
     )
     caption = blocks.RichTextBlock(
         help_text="Some short text describing the image",
-        features=base_blocks.INLINE_FEATURES,
+        features=INLINE_FEATURES,
         required=False,
     )
 
@@ -134,7 +155,7 @@ class RichContentBlocks(RichTextBlocks):
     hero_text = blocks.RichTextBlock(
         label="Hero text",
         help_text="Big and bold, use for important text at the start of a page.",
-        features=base_blocks.BLOCK_FEATURES,
+        features=BLOCK_FEATURES,
         group=HERO,
     )
     hero_image = ImageChooserBlock(
@@ -158,7 +179,7 @@ class RichContentBlocks(RichTextBlocks):
 class CallToActionBlock(blocks.StructBlock):
     heading = blocks.CharBlock()
     image = ImageChooserBlock(blank=True)
-    content = blocks.RichTextBlock(features=base_blocks.INLINE_FEATURES)
+    content = blocks.RichTextBlock(features=INLINE_FEATURES)
     link = blocks.PageChooserBlock()
     call_to_action = blocks.CharBlock()
 
@@ -168,7 +189,7 @@ class CallToActionBlock(blocks.StructBlock):
         template = 'blocks/call-to-action.html'
 
 
-class CallsToActionSection(base_blocks.DeclarativeListBlock):
+class CallsToActionSection(DeclarativeListBlock):
     child_block = CallToActionBlock()
 
     class Meta:
@@ -185,7 +206,3 @@ class RichContentSection(RichContentBlocks):
 class PageBlocks(blocks.StreamBlock):
     rich_content = RichContentSection()
     calls_to_action = CallsToActionSection()
-
-
-class HomePageBlocks(PageBlocks):
-    pass

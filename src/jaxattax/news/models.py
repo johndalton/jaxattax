@@ -3,19 +3,17 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
 from wagtailnews.decorators import newsindex
 from wagtailnews.models import (
-    AbstractNewsItem,
-    AbstractNewsItemRevision,
-    NewsIndexMixin
+    AbstractNewsItem, AbstractNewsItemRevision, NewsIndexMixin,
 )
 
-from jaxattax.mixins import PageWithBreadcrumbs
+from jaxattax.common.models import Page
 from jaxattax.utils.breadcrumbs import Crumb
 
 from . import blocks
 
 
 @newsindex
-class NewsIndex(NewsIndexMixin, PageWithBreadcrumbs):
+class NewsIndex(NewsIndexMixin, Page):
     newsitem_model = 'NewsItem'
     show_in_menus_default = True
     parent_page_types = ['pages.HomePage']
