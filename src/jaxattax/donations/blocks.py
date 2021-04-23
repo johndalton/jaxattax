@@ -1,6 +1,6 @@
 from wagtail.core import blocks
 
-from jaxattax.blocks import RichContentBlocks
+from jaxattax.common.blocks import RichContentBlocks
 
 
 class DonateBlock(blocks.StructBlock):

@@ -20,24 +20,18 @@ services:
       context: .
       dockerfile: Dockerfile
       target: backend
-
     command: ./src/manage.py runserver 0.0.0.0:8000
-
     ports:
       - '80:8000'
-
     volumes:
       - './src:/opt/jaxattax/src'
       - './local:/opt/jaxattax/local'
-
     env_file:
       - './.env'
     environment:
       - 'DJANGO_SETTINGS_MODULE=jaxattax.settings.dev'
-
     depends_on:
       - database
-
     links:
       - mail
       - frontend
@@ -48,14 +42,33 @@ services:
       - POSTGRES_DB=jaxattax
       - POSTGRES_USER=jaxattax
       - POSTGRES_PASSWORD=dev-password
+    ports:
+      - '5432:5432'
 
   mail:
     image: djfarrelly/maildev
     ports:
       - "9000:80"
 
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testing
+    profiles: ["test"]
+    command: ./check.sh
+    env_file:
+      - './.env'
+    volumes:
+      - './check.sh:/opt/jaxattax/check.sh'
+      - './pyproject.toml:/opt/jaxattax/pyproject.toml'
+      - './src:/opt/jaxattax/src'
+    depends_on:
+      - database
+
   stripe:
     image: stripe/stripe-cli:latest
+    profiles: ["payments"]
     command: listen --forward-to http://backend:8000/_donations/webhook/
     env_file:
       - './.env'

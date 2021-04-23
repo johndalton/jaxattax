@@ -10,4 +10,5 @@ scout-apm~=2.18.0
 stripe~=2.56.0
 wagtailfontawesome~=1.2.1
 wagtailnews~=2.7.1
+wagtail-metadata~=3.4.0
 whitenoise~=5.2.0

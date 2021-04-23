@@ -1,6 +1,9 @@
 {% load wagtailcore_tags %}
 <li {% if active_page == node.page %}class="active"{% endif %}>
-    <a href="{% pageurl node.page %}">{{ node.page }}</a>
+    {% pageurl node.page as page_url %}
+    <h3><a href="{{ page_url }}">{{ node.page }}</a></h3>
+    <p>{{ node.page.get_meta_description }}</p>
+    <p><a href="{{ page_url }}">Read more</a></p>
     {% if node.children %}
         <ul class="toc--pages">
             {% for child in node.children %}{% include "tags/_toc_node.html" with node=child %}{% endfor %}

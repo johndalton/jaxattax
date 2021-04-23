@@ -1,4 +1,4 @@
-from jaxattax import blocks
+from jaxattax.common import blocks
 
 
 class NewsItemBlocks(blocks.RichTextBlocks):

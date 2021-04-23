@@ -4,12 +4,11 @@ from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from jaxattax.mixins import PageWithBreadcrumbs
+from jaxattax.common.models import MetadataFromBlocksMixin, Page
 
-from .. import blocks
+from . import blocks
 
 
 class HomePage(Page):
@@ -24,7 +23,7 @@ class HomePage(Page):
     parent_page_types = ['wagtailcore.Page']
 
 
-class Page(PageWithBreadcrumbs):
+class Page(MetadataFromBlocksMixin, Page):
     body = StreamField(blocks.PageBlocks())
 
     content_panels = Page.content_panels + [
@@ -33,6 +32,7 @@ class Page(PageWithBreadcrumbs):
 
     template = 'layouts/pages/page.html'
 
+    show_in_menus_default = True
     parent_page_types = ['pages.HomePage', 'Page']
 
 

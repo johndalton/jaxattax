@@ -17,7 +17,7 @@ RUN yarn run build
 CMD ["yarn", "start"]
 
 # Backend application
-FROM python:3-slim as backend
+FROM python:3-slim as requirements
 
 WORKDIR /opt/jaxattax
 
@@ -41,6 +41,22 @@ RUN pip3 install --no-cache-dir --upgrade pip setuptools wheel \
 
 COPY ./src /opt/jaxattax/src
 COPY --from=frontend /opt/jaxattax/src/jaxattax/frontend/static /opt/jaxattax/src/jaxattax/frontend/static
+
+# Test application
+FROM requirements as testing
+
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
+RUN pip3 install --no-cache-dir pyinotify -r /tmp/requirements.dev.txt \
+	&& rm /tmp/requirements.dev.txt \
+	&& true
+
+COPY ./check.sh /opt/jaxattax
+COPY ./pyproject.toml /opt/jaxattax
+
+CMD ["./check.sh"]
+
+# Run application
+FROM requirements as backend
 
 ENV PYTHONUNBUFFERED=1 \
 	PYTHONIOENCODING=UTF-8 \

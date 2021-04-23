@@ -6,21 +6,22 @@ from wagtailnews.models import (
     AbstractNewsItem, AbstractNewsItemRevision, NewsIndexMixin,
 )
 
-from jaxattax.mixins import PageWithBreadcrumbs
+from jaxattax.common.models import MetadataFromBlocksMixin, Page
 from jaxattax.utils.breadcrumbs import Crumb
 
 from . import blocks
 
 
 @newsindex
-class NewsIndex(NewsIndexMixin, PageWithBreadcrumbs):
+class NewsIndex(NewsIndexMixin, Page):
     newsitem_model = 'NewsItem'
+    show_in_menus_default = True
     parent_page_types = ['pages.HomePage']
 
     template = 'layouts/news/news_index.html'
 
 
-class NewsItem(AbstractNewsItem):
+class NewsItem(MetadataFromBlocksMixin, AbstractNewsItem):
     title = models.CharField(max_length=100)
     body = StreamField(blocks.NewsItemBlocks())
 
