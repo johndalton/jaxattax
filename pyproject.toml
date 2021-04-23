@@ -9,6 +9,22 @@ color_output = true
 extend-ignore = "E501,"
 
 [tool.pytest.ini_options]
+
+addopts = "--rootdir src"
+
+filterwarnings = [
+	"ignore:.*ugettext_lazy:django.utils.deprecation.RemovedInDjango40Warning:wagtailnews.menu",
+	"ignore:.*ugettext_lazy:django.utils.deprecation.RemovedInDjango40Warning:wagtailnews.models",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtail.admin.signals",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtail.core.signals",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtail.documents.models",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtailmetadata",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtailnews.signals",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtailnews.urls",
+	"ignore::django.utils.deprecation.RemovedInDjango40Warning:wagtailnews.wagtail_hooks",
+	"ignore:No directory at:UserWarning:whitenoise.base",
+]
+
 testpaths = [
 	"src/tests",
 ]
