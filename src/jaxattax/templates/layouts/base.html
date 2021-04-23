@@ -9,8 +9,6 @@
 <meta charset="utf-8">
 <title>{% block page_title %}{{ settings.pages.SiteDecorations.site_name }}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="keywords" content="" />
-<meta name="description" content="" />
 {% image settings.pages.SiteDecorations.logo max-72x72 format-png as favicon %}
 <link href="{{ favicon.url }}" rel="shortcut icon" type="{{ favicon.format }}">
 <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" />
@@ -34,7 +32,7 @@
         {% block page_nav %}{% site_menu %}{% endblock %}
     </div>
 </div>
-{% block breadcrums %}
+{% block breadcrumbs %}
 {% if breadcrumbs %}
 <div class="container">
     <nav aria-label="breadcrumb">

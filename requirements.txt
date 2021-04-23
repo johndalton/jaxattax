@@ -123,9 +123,12 @@ urllib3[secure]==1.26.4
     #   botocore
     #   requests
     #   scout-apm
+wagtail-metadata==3.4.0
+    # via -r requirements.in
 wagtail==2.12.4
     # via
     #   -r requirements.in
+    #   wagtail-metadata
     #   wagtailfontawesome
     #   wagtailnews
 wagtailfontawesome==1.2.1

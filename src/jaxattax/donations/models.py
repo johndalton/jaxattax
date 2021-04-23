@@ -5,7 +5,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.fields import StreamField
 
-from jaxattax.common.models import Page
+from jaxattax.common.models import MetadataFromBlocksMixin, Page
 from jaxattax.edit_handlers import ReadOnlyPanel
 from jaxattax.utils.view_proxy import ViewModuleProxy
 
@@ -14,7 +14,7 @@ from . import blocks
 views = ViewModuleProxy('jaxattax.donations.views')
 
 
-class DonatePage(RoutablePageMixin, Page):
+class DonatePage(MetadataFromBlocksMixin, RoutablePageMixin, Page):
     body = StreamField(blocks.DonateBlocks)
     success_body = StreamField(blocks.SuccessBlocks)
 

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'taggit',
     'wagtailfontawesome',
     'wagtailnews',
+    'wagtailmetadata',
 
     'django.contrib.admin',
     'django.contrib.auth',

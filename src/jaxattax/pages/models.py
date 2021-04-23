@@ -6,7 +6,7 @@ from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from jaxattax.common.models import Page
+from jaxattax.common.models import MetadataFromBlocksMixin, Page
 
 from . import blocks
 
@@ -23,7 +23,7 @@ class HomePage(Page):
     parent_page_types = ['wagtailcore.Page']
 
 
-class Page(Page):
+class Page(MetadataFromBlocksMixin, Page):
     body = StreamField(blocks.PageBlocks())
 
     content_panels = Page.content_panels + [
