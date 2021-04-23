@@ -28,9 +28,15 @@ urlpatterns = [
     path('_donations/', include('jaxattax.donations.urls')),
     path('favicon.ico', views.favicon),
 
+    path('404/', views.handler404),
+    path('500/', views.handler500),
+
     # Must be last, as it matches everything
     re_path(r'', include(wagtail_urls)),
 ]
+
+handler404 = views.handler404
+handler500 = views.handler500
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

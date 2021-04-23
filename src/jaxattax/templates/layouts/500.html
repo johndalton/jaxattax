@@ -1,0 +1,51 @@
+<!doctype html>
+{% load static %}
+<html lang="en-au">
+<head>
+<meta charset="utf-8">
+<title>Server eror</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" />
+<link href="{% static "style.css" %}" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body class="page-500">
+
+<header class="page-header">
+<div class="page-title">
+    <div class="container">
+        <h1><a href="/">
+            <img src="{% static "images/jax-for-clark.png" %}">
+        </a></h1>
+    </div>
+</div>
+<div class="page-nav">
+    <div class="container">
+    </div>
+</div>
+</header>
+
+<main>
+<div class="container">
+<h2>Something went wrong</h2>
+<p>
+Very sorry, but something has gone terribly wrong.
+{% if request.path != '/' %}
+Try going back to the <a href="/">home page</a>.
+{% endif %}
+</p>
+
+</div>
+</main>
+
+<footer class="page-footer">
+<div class="footer-social">
+    <div class="container">
+    </div>
+</div>
+<div class="footer-copyright">
+    <div class="container">
+    </div>
+</div>
+</footer>
+</body>
+</html>
