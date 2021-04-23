@@ -14,6 +14,12 @@ $link-color: darken($color-blue, 20%);
 
 @import "~bootstrap/scss/bootstrap";
 
+@mixin trim-last-margin() {
+	> :last-child {
+		margin-bottom: 0;
+	}
+}
+
 body {
 	display: flex;
 	flex-direction: column;
@@ -154,8 +160,10 @@ h1, h2, h3, h4, h5, h6 {
 .toc {
 	margin-bottom: 1rem;
 	&--pages {
+		@extend .list-group;
 		li {
-			list-style-type: disc;
+			@extend .list-group-item;
+			@include trim-last-margin();
 			&.active > a {
 				color: $body-color;
 			}
@@ -283,9 +291,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rich-content, .rich-text {
-	> :last-child {
-		margin-bottom: 0;
-	}
+	@include trim-last-margin();
 }
 
 .donate-form {
