@@ -59,6 +59,8 @@ services:
     command: ./check.sh
     env_file:
       - './.env'
+    environment:
+      - 'DJANGO_SETTINGS_MODULE=jaxattax.settings.dev'
     volumes:
       - './check.sh:/opt/jaxattax/check.sh'
       - './pyproject.toml:/opt/jaxattax/pyproject.toml'

@@ -5,7 +5,7 @@ import typing as t
 import wagtail.core.models
 from bs4 import BeautifulSoup
 from django.apps import apps
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 from wagtail.admin.edit_handlers import (
     FieldPanel, MultiFieldPanel, PrivacyModalPanel, PublishingPanel,
 )
@@ -41,8 +41,8 @@ class Page(MetadataPageMixin, wagtail.core.models.Page):
 
     promote_panels = [
         MultiFieldPanel(
-            heading=ugettext_lazy("Social media settings"),
-            help_text=ugettext_lazy(
+            heading=gettext_lazy("Social media settings"),
+            help_text=gettext_lazy(
                 """
                 Set how this page will appear when linked from social media.
                 If left blank, each field will use a hopefully sensible default.
@@ -59,7 +59,7 @@ class Page(MetadataPageMixin, wagtail.core.models.Page):
         MultiFieldPanel([
             FieldPanel('slug'),
             FieldPanel('show_in_menus'),
-        ], ugettext_lazy('Common page configuration')),
+        ], gettext_lazy('Common page configuration')),
         PublishingPanel(),
         PrivacyModalPanel(),
     ]
