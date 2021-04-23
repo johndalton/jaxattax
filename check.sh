@@ -31,6 +31,7 @@ run_in_docker() {
 }
 
 run() {
+	try ./src/manage.py makemigrations --check --dry-run
 	try isort src --check --diff
 	try pflake8 src
 	try pytest

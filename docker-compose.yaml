@@ -55,6 +55,8 @@ services:
       target: testing
     profiles: ["test"]
     command: ./check.sh
+    env_file:
+      - './.env'
     volumes:
       - './check.sh:/opt/jaxattax/check.sh'
       - './pyproject.toml:/opt/jaxattax/pyproject.toml'
