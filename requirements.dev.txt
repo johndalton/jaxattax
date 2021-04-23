@@ -41,6 +41,8 @@ chardet==4.0.0
     # via
     #   -r requirements.txt
     #   requests
+colorama==0.4.4
+    # via isort
 cryptography==3.4.7
     # via
     #   -r requirements.txt
@@ -108,7 +110,7 @@ idna==2.10
     #   urllib3
 iniconfig==1.1.1
     # via pytest
-isort==5.8.0
+isort[colors]==5.8.0
     # via -r requirements.dev.in
 jmespath==0.10.0
     # via

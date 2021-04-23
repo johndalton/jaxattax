@@ -1,6 +1,6 @@
 -r requirements.txt
 flake8
-isort
+isort[colors]
 pyproject-flake8
 pytest
 pytest-django
