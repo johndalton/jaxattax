@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 from django.apps import apps
 from django.utils.translation import gettext_lazy
 from wagtail.admin.edit_handlers import (
-    FieldPanel, MultiFieldPanel, PrivacyModalPanel, PublishingPanel,
+    CommentPanel, FieldPanel, MultiFieldPanel, PrivacyModalPanel,
+    PublishingPanel,
 )
 from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.core.blocks import StreamValue
@@ -62,6 +63,7 @@ class Page(MetadataPageMixin, wagtail.core.models.Page):
         ], gettext_lazy('Common page configuration')),
         PublishingPanel(),
         PrivacyModalPanel(),
+        CommentPanel(),
     ]
 
     """Base class for all Wagtail Pages in this site"""
