@@ -12,6 +12,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.core.blocks import StreamValue
+from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmetadata.models import MetadataPageMixin, WagtailImageMetadataMixin
 
@@ -21,6 +22,21 @@ from jaxattax.utils.breadcrumbs import breadcrumbs_for_page
 def strip_tags(html):
     soup = BeautifulSoup(html)
     return soup.get_text()
+
+
+class StreamField(StreamField):
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+
+        # Use empty list of blocks for migrations. The block definitions are
+        # too mutable, cause noisy migrations, and don't actually change
+        # anything in the database.
+        #
+        # If you need a StreamField data migration because of significant block
+        # changes, see `jaxattax.utils.migrations.StreamFieldDataMigration`
+        args = [[]] + args[1:]
+
+        return name, path, args, kwargs
 
 
 class WagtailAdminPageForm(WagtailAdminPageForm):

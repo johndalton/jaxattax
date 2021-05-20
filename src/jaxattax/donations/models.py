@@ -3,9 +3,8 @@ from wagtail.admin.edit_handlers import (
     FieldPanel, ObjectList, StreamFieldPanel, TabbedInterface,
 )
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
-from wagtail.core.fields import StreamField
 
-from jaxattax.common.models import MetadataFromBlocksMixin, Page
+from jaxattax.common.models import MetadataFromBlocksMixin, Page, StreamField
 from jaxattax.edit_handlers import ReadOnlyPanel
 from jaxattax.utils.view_proxy import ViewModuleProxy
 

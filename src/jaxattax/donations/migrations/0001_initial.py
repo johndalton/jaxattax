@@ -2,10 +2,7 @@
 
 import django.db.models.deletion
 import wagtail.contrib.routable_page.models
-import wagtail.core.blocks
 import wagtail.core.fields
-import wagtail.documents.blocks
-import wagtail.images.blocks
 from django.db import migrations, models
 
 
@@ -36,8 +33,8 @@ class Migration(migrations.Migration):
             name='DonatePage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('body', wagtail.core.fields.StreamField([('heading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], label='Text')), ('buttons', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('text', wagtail.core.blocks.CharBlock()), ('link', wagtail.core.blocks.StructBlock([('page', wagtail.core.blocks.PageChooserBlock()), ('document', wagtail.documents.blocks.DocumentChooserBlock())]))]))), ('large_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('alignment', wagtail.core.blocks.ChoiceBlock(choices=[('full-width', 'Full width'), ('left', 'Left'), ('right', 'Right')])), ('caption', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link'], help_text='Some short text describing the image', required=False))])), ('table_of_contents', wagtail.core.blocks.StructBlock([])), ('cash_donations', wagtail.core.blocks.StructBlock([])), ('donate', wagtail.core.blocks.StructBlock([]))])),
-                ('success_body', wagtail.core.fields.StreamField([('heading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('subheading', wagtail.core.blocks.CharBlock(icon='fa-header')), ('rich_text', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link', 'ol', 'ul', 'hr', 'embed'], label='Text')), ('buttons', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('text', wagtail.core.blocks.CharBlock()), ('link', wagtail.core.blocks.StructBlock([('page', wagtail.core.blocks.PageChooserBlock()), ('document', wagtail.documents.blocks.DocumentChooserBlock())]))]))), ('large_image', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock()), ('alignment', wagtail.core.blocks.ChoiceBlock(choices=[('full-width', 'Full width'), ('left', 'Left'), ('right', 'Right')])), ('caption', wagtail.core.blocks.RichTextBlock(features=['bold', 'italic', 'link', 'document-link'], help_text='Some short text describing the image', required=False))])), ('table_of_contents', wagtail.core.blocks.StructBlock([])), ('cash_donations', wagtail.core.blocks.StructBlock([]))])),
+                ('body', wagtail.core.fields.StreamField([])),
+                ('success_body', wagtail.core.fields.StreamField([])),
             ],
             options={
                 'abstract': False,
