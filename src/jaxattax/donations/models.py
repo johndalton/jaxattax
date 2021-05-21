@@ -3,9 +3,8 @@ from wagtail.admin.edit_handlers import (
     FieldPanel, ObjectList, StreamFieldPanel, TabbedInterface,
 )
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
-from wagtail.core.fields import StreamField
 
-from jaxattax.common.models import MetadataFromBlocksMixin, Page
+from jaxattax.common.models import MetadataFromBlocksMixin, Page, StreamField
 from jaxattax.edit_handlers import ReadOnlyPanel
 from jaxattax.utils.view_proxy import ViewModuleProxy
 
@@ -44,6 +43,21 @@ class DonatePage(MetadataFromBlocksMixin, RoutablePageMixin, Page):
 
     _v_index = route('^$', 'index')(views['donate_index'])
     _v_success = route('^thanks/$', 'success')(views['donate_success'])
+
+    preview_modes = [
+        ('index', "Donate"),
+        ('success', "Thanks"),
+    ]
+
+    def serve_preview(self, request, mode_name):
+        request.is_preview = True
+
+        if mode_name == 'index':
+            view, args, kwargs = self._v_index, (), {}
+        elif mode_name == 'success':
+            view, args, kwargs = self._v_success, (), {}
+
+        return view(request, *args, **kwargs)
 
 
 class CashDonation(models.Model):

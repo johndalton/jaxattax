@@ -1,5 +1,3 @@
-import dataclasses
-import functools
 import typing as t
 
 from wagtail.core import blocks
@@ -29,30 +27,10 @@ class DeclarativeListBlock(blocks.ListBlock):
         return 'wagtail.core.blocks.ListBlock', args, kwargs
 
 
-@functools.total_ordering
-@dataclasses.dataclass
-class Group:
-    name: str
-    order: int
-
-    def __lt__(self, other):
-        if isinstance(other, str):
-            return True
-        if not isinstance(other, Group):
-            return NotImplemented
-        return self.order < other.order
-
-    def deconstruct(self):
-        return "jaxattax.common.blocks.Group", (), dataclasses.asdict(self)
-
-    def __str__(self):
-        return self.name
-
-
-TEXT = Group("Text", 100)
-HERO = Group("Big and bold", 200)
-IMAGES = Group("Images", 300)
-MISC = Group("The kitchen sink", 900)
+TEXT = "1. Text"
+HERO = "2. Big and bold"
+IMAGES = "3. Images"
+MISC = "4. The kitchen sink"
 
 
 class LinkBlock(blocks.StructBlock):

@@ -1,12 +1,11 @@
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
-from wagtail.core.fields import StreamField
 from wagtailnews.decorators import newsindex
 from wagtailnews.models import (
     AbstractNewsItem, AbstractNewsItemRevision, NewsIndexMixin,
 )
 
-from jaxattax.common.models import MetadataFromBlocksMixin, Page
+from jaxattax.common.models import MetadataFromBlocksMixin, Page, StreamField
 from jaxattax.utils.breadcrumbs import Crumb
 
 from . import blocks
